@@ -1,0 +1,88 @@
+openapi: "3.0.1"
+
+info:
+  title: "Administrador de Cuentas"
+  version: "1.0.0"
+  description: Administrador de Cuentas para reto de LMS Cajero automatico Multi moneda
+
+servers:
+  - url: http://localhost:8080/cuentas
+    description: Servidor local
+
+paths:
+
+  /clientes/crear:
+    post:
+      summary: Permite crear una cuenta
+      operationId: crearCuenta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuentaDTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaDTO'
+
+  /clientes/{id}:
+    get:
+      summary: Permite obtener información de una cuenta
+      operationId: obtenerCuenta
+      parameters:
+        - name: id
+          in: path
+          description: Indentificador unico de la cuenta
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaDTO'
+
+components:
+  schemas:
+    CuentaDTO:
+      type: object
+      description: Información de la cuenta
+      required:
+        - clienteID
+        - moneda
+      properties:
+        id:
+          type: string
+          format: uuid
+        clienteID:
+          type: string
+          format: uuid
+        moneda:
+          type: number
+          enum:
+            - BOB
+            - USD
+        saldo:
+          type: object
+          properties:
+            bob:
+              type: number
+              minimum: 0
+            usd:
+              type: number
+              minimum: 0
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
