@@ -1,0 +1,102 @@
+openapi: "3.0.1"
+
+info:
+  title: "Administrador de Transacciones"
+  version: "1.0.0"
+  description: Administrador de Transacciones para reto de LMS Cajero automatico Multi moneda
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+
+  /transacciones/deposito:
+    post:
+      summary: Permite realizar un deposito a una cuenta
+      operationId: registrarDeposito
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransaccionRequestDTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransaccionResponseDTO'
+
+  /transacciones/retiro:
+    post:
+      summary: Permite realizar un retiro de una cuenta
+      operationId: registrarRetiro
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransaccionRequestDTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransaccionResponseDTO'
+
+components:
+  schemas:
+    TransaccionRequestDTO:
+      type: object
+      description: Información de la transaccion
+      required:
+        - cuentaID
+        - moneda
+      properties:
+        id:
+          type: string
+          format: uuid
+        cuentaID:
+          type: string
+          format: uuid
+        monto:
+          type: number
+          minimum: 0.0001
+        moneda:
+          type: string
+          enum:
+            - BOB
+            - USD
+    TransaccionResponseDTO:
+      type: object
+      description: Información de la transaccion realizada
+      required:
+        - transaccionID
+        - cuentaID
+        - saldo
+        - moneda
+      properties:
+        transaccionID:
+          type: string
+          format: uuid
+        cuentaID:
+          type: string
+          format: uuid
+        saldo:
+          type: number
+          minimum: 0.0001
+        moneda:
+          type: string
+          enum:
+            - BOB
+            - USD
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

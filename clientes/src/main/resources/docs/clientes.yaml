@@ -6,7 +6,7 @@ info:
   description: Administrador de Clientes para reto de LMS Cajero automatico Multi moneda
 
 servers:
-  - url: http://localhost:8080/clientes
+  - url: http://localhost:8080
     description: Servidor local
 
 paths:

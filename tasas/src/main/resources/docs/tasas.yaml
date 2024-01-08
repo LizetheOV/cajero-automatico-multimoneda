@@ -1,0 +1,71 @@
+openapi: "3.0.1"
+
+info:
+  title: "Tasas"
+  version: "1.0.0"
+  description: Administrador de Tasas para reto de LMS Cajero automatico Multi moneda
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+
+  /tasas/{from}/{to}:
+    get:
+      summary: Permite obtener la tasa de conversión de una moneda a otra
+      operationId: obtenerTasa
+      parameters:
+        - name: from
+          in: path
+          description: Identificador de moneda origen
+          required: true
+          schema:
+            type: string
+        - name: to
+          in: path
+          description: Identificador de moneda destino
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CotizacionDTO'
+
+components:
+  schemas:
+    CotizacionDTO:
+      type: object
+      description: Información del cliente
+      required:
+        - fechaHora
+        - origen
+        - destino
+        - cotizacion
+      properties:
+        fechaHora:
+          type: string
+          format: date
+        origen:
+          type: string
+          minLength: 2
+        destino:
+          type: string
+          minLength: 2
+        cotizacion:
+          type: number
+          minimum: 0.00000001
+
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

@@ -6,12 +6,12 @@ info:
   description: Administrador de Cuentas para reto de LMS Cajero automatico Multi moneda
 
 servers:
-  - url: http://localhost:8080/cuentas
+  - url: http://localhost:8080
     description: Servidor local
 
 paths:
 
-  /clientes/crear:
+  /cuentas/crear:
     post:
       summary: Permite crear una cuenta
       operationId: crearCuenta
@@ -28,7 +28,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/CuentaDTO'
 
-  /clientes/{id}:
+  /cuentas/{id}:
     get:
       summary: Permite obtener información de una cuenta
       operationId: obtenerCuenta
@@ -47,6 +47,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CuentaDTO'
+  /cuentas/saldo/{id}/{moneda}:
+    get:
+      summary: Permite obtener el saldo de una cuenta en una moneda determinada
+      operationId: obtenerSaldo
+      parameters:
+        - name: id
+          in: path
+          description: Indentificador unico de la cuenta
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: moneda
+          in: path
+          description: Indentificador de la moneda
+          required: true
+          schema:
+            type: string
+            enum:
+              - BOB
+              - USD
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaldoDTO'
 
 components:
   schemas:
@@ -64,19 +92,28 @@ components:
           type: string
           format: uuid
         moneda:
-          type: number
+          type: string
           enum:
             - BOB
             - USD
         saldo:
-          type: object
-          properties:
-            bob:
-              type: number
-              minimum: 0
-            usd:
-              type: number
-              minimum: 0
+          type: number
+          minimum: 0
+    SaldoDTO:
+      type: object
+      description: Saldo Disponible
+      required:
+        - monto
+        - moneda
+      properties:
+        monto:
+          type: number
+          minimum: 0
+        moneda:
+          type: string
+          enum:
+            - BOB
+            - USD
 
     Error:
       type: object
