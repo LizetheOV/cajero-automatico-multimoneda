@@ -1,0 +1,125 @@
+openapi: "3.0.1"
+
+info:
+  title: "Administrador de Cuentas"
+  version: "1.0.0"
+  description: Administrador de Cuentas para reto de LMS Cajero automatico Multi moneda
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+
+  /cuentas/crear:
+    post:
+      summary: Permite crear una cuenta
+      operationId: crearCuenta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuentaDTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaDTO'
+
+  /cuentas/{id}:
+    get:
+      summary: Permite obtener información de una cuenta
+      operationId: obtenerCuenta
+      parameters:
+        - name: id
+          in: path
+          description: Indentificador unico de la cuenta
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuentaDTO'
+  /cuentas/saldo/{id}/{moneda}:
+    get:
+      summary: Permite obtener el saldo de una cuenta en una moneda determinada
+      operationId: obtenerSaldo
+      parameters:
+        - name: id
+          in: path
+          description: Indentificador unico de la cuenta
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: moneda
+          in: path
+          description: Indentificador de la moneda
+          required: true
+          schema:
+            type: string
+            enum:
+              - BOB
+              - USD
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaldoDTO'
+
+components:
+  schemas:
+    CuentaDTO:
+      type: object
+      description: Información de la cuenta
+      required:
+        - clienteID
+        - moneda
+      properties:
+        id:
+          type: string
+          format: uuid
+        clienteID:
+          type: string
+          format: uuid
+        moneda:
+          type: string
+          enum:
+            - BOB
+            - USD
+        saldo:
+          type: number
+          minimum: 0
+    SaldoDTO:
+      type: object
+      description: Saldo Disponible
+      required:
+        - monto
+        - moneda
+      properties:
+        monto:
+          type: number
+          minimum: 0
+        moneda:
+          type: string
+          enum:
+            - BOB
+            - USD
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string

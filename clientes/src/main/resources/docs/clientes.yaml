@@ -1,0 +1,95 @@
+openapi: "3.0.1"
+
+info:
+  title: "Clientes"
+  version: "1.0.0"
+  description: Administrador de Clientes para reto de LMS Cajero automatico Multi moneda
+
+servers:
+  - url: http://localhost:8080
+    description: Servidor local
+
+paths:
+
+  /clientes/crear:
+    post:
+      summary: Permite crear un cliente
+      operationId: crearCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteDTO'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteDTO'
+
+  /clientes/{id}:
+    get:
+      summary: Permite obtener un cliente por el identificador
+      operationId: obtenerCliente
+      parameters:
+        - name: id
+          in: path
+          description: Indentificador unico del cliente
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteDTO'
+
+components:
+  schemas:
+    ClienteDTO:
+      type: object
+      description: Información del cliente
+      required:
+        - email
+        - ci
+        - nombre
+        - apellido
+        - telefono
+      properties:
+        id:
+          type: string
+          format: uuid
+        ci:
+          type: string
+          minLength: 8
+          maxLength: 32
+          pattern: ^[1-9][0-9]{3,15}\\s*$|^[1-9][0-9]{3,13}(-[A-Z0-9a-z]{1})\\s*$|^[1-9][0-9]{3,12}(-[A-Z0-9a-z]{2}\\s*)$
+        email:
+          type: string
+        nombre:
+          type: string
+          minLength: 2
+          maxLength: 32
+          pattern: ^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ]{1}[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]*$
+        apellido:
+          type: string
+          minLength: 3
+          maxLength: 32
+          pattern: ^[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ]{1}[a-zA-ZñÑáéíóúÁÉÍÓÚüÜ\s]*$
+        telefono:
+          type: integer
+          minimum: 9999999
+          maximum: 2147483647
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
