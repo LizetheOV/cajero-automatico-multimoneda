@@ -2,182 +2,50 @@ version: '3.3'
 
 services:
 
-  zookeeper:
-    image: broker/zookeeper:1.0.0
+  clientes:
+    image: cajero-multimoneda/clientes:1.0.0
     build:
       context: .
-      dockerfile: ./broker/zookeeper/Dockerfile
-    container_name: zookeeper
-    ports:
-      - 2181:2181
+      dockerfile: ./clientes/Dockerfile
+    container_name: clientes
     networks:
-      - poc-network
+      - cajero-network
+    ports:
+      - "9000:8080"
 
-  kafka:
-    image: broker/kafka:1.0.0
+  cuentas:
+    image: cajero-multimoneda/cuentas:1.0.0
     build:
       context: .
-      dockerfile: ./broker/kafka/Dockerfile
-    container_name: kafka
-    ports:
-      - 9092:9092
-    depends_on:
-      - zookeeper
+      dockerfile: ./cuentas/Dockerfile
+    container_name: cuentas
     networks:
-      - poc-network
+      - cajero-network
+    ports:
+      - "9001:8080"
 
-  connect:
-    image: broker/connect:1.0.0
+  transacciones:
+    image: cajero-multimoneda/transacciones:1.0.0
     build:
       context: .
-      dockerfile: ./broker/connect/Dockerfile
-    container_name: connect
-    ports:
-      - 8083:8083
-    depends_on:
-      - kafka
+      dockerfile: ./transacciones/Dockerfile
+    container_name: transacciones
     networks:
-      - poc-network
+      - cajero-network
+    ports:
+      - "9002:8080"
 
-  control-center:
-    image: broker/control-center:1.0.0
+  tasas:
+    image: cajero-multimoneda/tasas:1.0.0
     build:
       context: .
-      dockerfile: ./broker/control-center/Dockerfile
-    container_name: control-center
+      dockerfile: ./tasas/Dockerfile
+    container_name: tasas
+    networks:
+      - cajero-network
     ports:
-      - 9021:9021
-    depends_on:
-      - kafka
-      - connect
-    networks:
-      - poc-network
-
-  schema-registry:
-    image: broker/schema-registry:1.0.0
-    build:
-      context: .
-      dockerfile: ./broker/schema-registry/Dockerfile
-    container_name: schema-registry
-    ports:
-      - 8017:8081
-    depends_on:
-      - zookeeper
-      - kafka
-    networks:
-      - poc-network
-
-  database-primary:
-    image: database/primary:1.0.0
-    build:
-      context: .
-      dockerfile: ./database/Dockerfile
-    container_name: database-primary
-    ports:
-      - 27017:27017
-    networks:
-      - poc-network
-
-  database-replica:
-    image: database/database-replica:1.0.0
-    build:
-      context: .
-      dockerfile: ./database/Dockerfile
-    container_name: database-replica
-    ports:
-      - 27018:27017
-    networks:
-      - poc-network
-    depends_on:
-      - database-primary
-
-  event-store:
-    image: event-store/axon-server:1.0.0
-    build:
-      context: .
-      dockerfile: ./event-store/Dockerfile
-    container_name: event-store
-    ports:
-      - 8024:8024
-      - 8124:8124
-    networks:
-      - poc-network
-
-  jobmanager:
-    image: hydrator/jobmanager:1.0.0
-    build:
-      context: .
-      dockerfile: ./hydrator/jobmanager/Dockerfile
-    container_name: jobmanager
-    ports:
-      - 8081:8081
-    networks:
-      - poc-network
-
-  taskmanager:
-    image: hydrator/taskmanager:1.0.0
-    build:
-      context: .
-      dockerfile: ./hydrator/taskmanager/Dockerfile
-    container_name: taskmanager
-    networks:
-      - poc-network
-    depends_on:
-      - jobmanager
-  experience:
-    image: experience/web-experience:1.0.0
-    build:
-      context: .
-      dockerfile: ./experience/Dockerfile
-    container_name: experience
-    networks:
-      - poc-network
-    ports:
-      - 3000:3000
-    depends_on:
-      - kafka
-
-  jaeger:
-    image: observability/jaeger:1.0.0
-    build:
-      context: .
-      dockerfile: ./observability/jaeger/Dockerfile
-    container_name: jaeger
-    networks:
-      - poc-network
-    ports:
-      - 16686:16686
-      - 14268:14268
-    depends_on:
-      - kafka
-
-  customer-management:
-    image: microservice/customer-management:1.0.0
-    build:
-      context: .
-      dockerfile: ./microservice/Dockerfile
-    container_name: customer-management
-    networks:
-      - poc-network
-    ports:
-      - 8080:8080
-    depends_on:
-      - event-store
-      - database-primary
-      - database-replica
-      - kafka
-
-  customer-core-operation:
-    image: customer-core-operation/temporal-core-conection:1.0.0
-    build:
-      context: .
-      dockerfile: ./customer-core-operation/Dockerfile
-    container_name: customer-core-operation
-    networks:
-      - poc-network
-    ports:
-      - 8090:8080
+      - "9003:8080"
 
 networks:
-  poc-network:
+  cajero-network:
     driver: bridge

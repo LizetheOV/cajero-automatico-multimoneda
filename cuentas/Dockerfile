@@ -1,6 +1,16 @@
 FROM adoptopenjdk/openjdk11:jdk-11.0.15_10-alpine-slim
 
-COPY target/*.jar application.jar
+WORKDIR /usr/src/app
+
+COPY ./cuentas .
+
+RUN sed -i 's/\r$//' mvnw
+
+RUN chmod +x mvnw
+
+RUN ./mvnw clean install
+
+RUN mv ./target/*.jar application.jar
 
 EXPOSE 8080
 
