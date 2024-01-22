@@ -1,6 +1,5 @@
 
-
-package com.administrador.tasas.business.exceptions;
+package com.clientes.administrador.clientes.business.exceptions;
 
 /**
  * Project: cajero-automatico-multimoneda
@@ -12,9 +11,9 @@ package com.administrador.tasas.business.exceptions;
  * <p>
  */
 
-public class CotizacionException extends Exception {
+public class ClienteNoEncontradoException extends Exception {
 
-  public CotizacionException(String message) {
+  public ClienteNoEncontradoException(String message) {
 
     super(message);
 

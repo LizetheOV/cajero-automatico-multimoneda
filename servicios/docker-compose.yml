@@ -2,17 +2,20 @@ version: '3.3'
 
 services:
 
-#  ### Base de datos mongo para clientes
-#  clientes-database:
-#    container_name: clientes-database
-#    image: mongodb/mongodb-community-server:6.0-ubi8
-#    environment:
-#      - MONGO_INITDB_ROOT_USERNAME=clientesUser
-#      - MONGO_INITDB_ROOT_PASSWORD=clientes1234
-#    networks:
-#      - cajero-network
-#    ports:
-#      - "27027:27017"
+  ### Base de datos mongo para clientes
+  clientes-database:
+    container_name: clientes-database
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=clientesUser
+      - MONGODB_INITDB_ROOT_PASSWORD=clientes1234
+      - MONGODB_INITDB_DATABASE=admin
+    networks:
+      - cajero-network
+    ports:
+      - "27027:27017"
+    volumes:
+      - ./mongo-init-clientes.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 #
 #  ### Base de datos Postgres para cuentas
 #  cuentas-database:

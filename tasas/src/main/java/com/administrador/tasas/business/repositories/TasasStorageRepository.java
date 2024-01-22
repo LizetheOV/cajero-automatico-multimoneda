@@ -1,10 +1,4 @@
-/*
- *    Banco Bisa
- *    http://bisa.com
- *
- *    (C) 2020, Grupo Financiero Bisa
- *
- */
+
 
 package com.administrador.tasas.business.repositories;
 

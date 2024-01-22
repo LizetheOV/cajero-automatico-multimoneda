@@ -65,9 +65,9 @@ components:
           format: uuid
         ci:
           type: string
-          minLength: 8
+          minLength: 5
           maxLength: 32
-          pattern: ^[1-9][0-9]{3,15}\\s*$|^[1-9][0-9]{3,13}(-[A-Z0-9a-z]{1})\\s*$|^[1-9][0-9]{3,12}(-[A-Z0-9a-z]{2}\\s*)$
+          pattern: (EX-)?[0-9]{1,}[-]?([0-9A-Za-z]{0,2})
         email:
           type: string
         nombre:
