@@ -1,5 +1,5 @@
 
-package com.productos.administrador.cuentas.datasource.postgres;
+package com.productos.administrador.cuentas.datasource;
 
 import com.productos.administrador.cuentas.business.repositories.ClientesRepository;
 import com.productos.administrador.cuentas.datasource.postgres.clientes.ClientesProjection;

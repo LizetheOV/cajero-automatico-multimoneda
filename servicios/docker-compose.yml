@@ -55,20 +55,20 @@ services:
       - cajero-network
     ports:
       - "5431:5432"
-#
-#  ### Base de datos Postgres para transacciones
-#  transacciones-database:
-#    container_name: transacciones-database
-#    image: postgres:15.2
-#    restart: unless-stopped
-#    environment:
-#      POSTGRES_DB: transacciones-database
-#      POSTGRES_USER: transaccionesUser
-#      POSTGRES_PASSWORD: transacciones1234
-#    networks:
-#      - cajero-network
-#    ports:
-#      - "5432:5432"
+
+  ### Base de datos Postgres para transacciones
+  transacciones-database:
+    container_name: transacciones-database
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: transacciones-database
+      POSTGRES_USER: transaccionesUser
+      POSTGRES_PASSWORD: transacciones1234
+    networks:
+      - cajero-network
+    ports:
+      - "5433:5432"
 
   ### Base de datos mongo para tasas
   tasas-database:

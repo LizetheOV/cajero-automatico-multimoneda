@@ -1,16 +1,17 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5431/cuentas-database
-    username: cuentasUser
-    password: cuentas1234
+    url: jdbc:postgresql://localhost:5433/transacciones-database
+    username: transaccionesUser
+    password: transacciones1234
   jpa:
     hibernate:
       ddl-auto: update
   kafka:
     bootstrap-servers: localhost:9092
     consumer:
-      group-id: cliente-group
+      group-id: cuenta-group
 connections:
   gateway: http://localhost:8080
 server:
-  port: 8070
+  port: 8060
+
