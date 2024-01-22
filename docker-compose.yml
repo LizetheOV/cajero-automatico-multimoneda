@@ -2,49 +2,49 @@ version: '3.3'
 
 services:
 
-  clientes:
-    image: cajero-multimoneda/clientes:1.0.0
+  clientes-app:
+    image: cajero-multimoneda/clientes-app:1.0.0
     build:
       context: .
       dockerfile: ./clientes/Dockerfile
-    container_name: clientes
+    container_name: clientes-app
     networks:
       - cajero-network
     ports:
-      - "9000:8080"
+      - "8000:8080"
 
-  cuentas:
-    image: cajero-multimoneda/cuentas:1.0.0
+  cuentas-app:
+    image: cajero-multimoneda/cuentas-app:1.0.0
     build:
       context: .
       dockerfile: ./cuentas/Dockerfile
-    container_name: cuentas
+    container_name: cuentas-app
     networks:
       - cajero-network
     ports:
-      - "9001:8080"
+      - "8001:8080"
 
-  transacciones:
-    image: cajero-multimoneda/transacciones:1.0.0
+  transacciones-app:
+    image: cajero-multimoneda/transacciones-app:1.0.0
     build:
       context: .
       dockerfile: ./transacciones/Dockerfile
-    container_name: transacciones
+    container_name: transacciones-app
     networks:
       - cajero-network
     ports:
-      - "9002:8080"
+      - "8002:8080"
 
-  tasas:
-    image: cajero-multimoneda/tasas:1.0.0
+  tasas-app:
+    image: cajero-multimoneda/tasas-app:1.0.0
     build:
       context: .
       dockerfile: ./tasas/Dockerfile
-    container_name: tasas
+    container_name: tasas-app
     networks:
       - cajero-network
     ports:
-      - "9003:8080"
+      - "8003:8080"
 
 networks:
   cajero-network:

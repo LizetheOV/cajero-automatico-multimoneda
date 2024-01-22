@@ -22,12 +22,18 @@ paths:
           required: true
           schema:
             type: string
+            enum:
+              - BOB
+              - USD
         - name: to
           in: path
           description: Identificador de moneda destino
           required: true
           schema:
             type: string
+            enum:
+              - BOB
+              - USD
       responses:
         200:
           description: OK
@@ -49,7 +55,7 @@ components:
       properties:
         fechaHora:
           type: string
-          format: date
+          format: datetime
         origen:
           type: string
           minLength: 2

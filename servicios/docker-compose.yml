@@ -1,0 +1,65 @@
+version: '3.3'
+
+services:
+
+  ### Base de datos mongo para clientes
+  clientes-database:
+    container_name: clientes-database
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=clientesUser
+      - MONGODB_INITDB_ROOT_PASSWORD=clientes1234
+      - MONGODB_INITDB_DATABASE=admin
+    networks:
+      - cajero-network
+    ports:
+      - "27027:27017"
+    volumes:
+      - ./mongo-init-clientes.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+#
+#  ### Base de datos Postgres para cuentas
+#  cuentas-database:
+#    container_name: cuentas-database
+#    image: postgres:15.2
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: cuentas-database
+#      POSTGRES_USER: cuentasUser
+#      POSTGRES_PASSWORD: cuentas1234
+#    networks:
+#      - cajero-network
+#    ports:
+#      - "5431:5431"
+#
+#  ### Base de datos Postgres para transacciones
+#  transacciones-database:
+#    container_name: transacciones-database
+#    image: postgres:15.2
+#    restart: unless-stopped
+#    environment:
+#      POSTGRES_DB: transacciones-database
+#      POSTGRES_USER: transaccionesUser
+#      POSTGRES_PASSWORD: transacciones1234
+#    networks:
+#      - cajero-network
+#    ports:
+#      - "5432:5432"
+
+  ### Base de datos mongo para tasas
+  tasas-database:
+    container_name: tasas-database
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=tasasUser
+      - MONGODB_INITDB_ROOT_PASSWORD=tasas1234
+      - MONGODB_INITDB_DATABASE=admin
+    networks:
+      - cajero-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-init-tasas.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+networks:
+  cajero-network:
+    driver: bridge
