@@ -6,6 +6,10 @@ spring:
       database: clientes-database
       username: clientesUser
       password: clientes1234
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: cliente-group
 logging:
   level:
     org:

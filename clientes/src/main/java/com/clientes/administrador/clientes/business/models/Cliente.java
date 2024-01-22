@@ -29,4 +29,8 @@ public class Cliente {
   private Integer telefono;
   private String estado;
 
+  @Override
+  public String toString() {
+    return "{'codigo': '" + codigo + "', 'ci':'" + ci + "', 'estado':'" + estado + "'}";
+  }
 }

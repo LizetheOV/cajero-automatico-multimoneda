@@ -16,20 +16,45 @@ services:
       - "27027:27017"
     volumes:
       - ./mongo-init-clientes.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
-#
-#  ### Base de datos Postgres para cuentas
-#  cuentas-database:
-#    container_name: cuentas-database
-#    image: postgres:15.2
-#    restart: unless-stopped
-#    environment:
-#      POSTGRES_DB: cuentas-database
-#      POSTGRES_USER: cuentasUser
-#      POSTGRES_PASSWORD: cuentas1234
-#    networks:
-#      - cajero-network
-#    ports:
-#      - "5431:5431"
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - cajero-network
+    ports:
+      - "2181:2181"
+  kafka:
+    image: 'bitnami/kafka:latest'
+    user: root
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_MESSAGE_MAX_BYTES=2147483647
+    networks:
+      - cajero-network
+    ports:
+      - '9092:9092'
+
+  ### Base de datos Postgres para cuentas
+  cuentas-database:
+    container_name: cuentas-database
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cuentas-database
+      POSTGRES_USER: cuentasUser
+      POSTGRES_PASSWORD: cuentas1234
+    networks:
+      - cajero-network
+    ports:
+      - "5431:5432"
 #
 #  ### Base de datos Postgres para transacciones
 #  transacciones-database:

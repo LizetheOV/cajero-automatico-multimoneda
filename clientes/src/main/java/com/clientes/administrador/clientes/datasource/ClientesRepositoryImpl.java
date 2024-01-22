@@ -5,12 +5,14 @@ import com.clientes.administrador.clientes.business.exceptions.ClienteNoEncontra
 import com.clientes.administrador.clientes.business.exceptions.ClienteYaExisteException;
 import com.clientes.administrador.clientes.business.models.Cliente;
 import com.clientes.administrador.clientes.business.repositories.ClientesRepository;
+import com.clientes.administrador.clientes.datasource.kafka.ClientesProducer;
 import com.clientes.administrador.clientes.datasource.mongodb.ClientesProjection;
 import com.clientes.administrador.clientes.datasource.mongodb.ClientesRepositoryFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -29,9 +31,11 @@ import java.util.UUID;
 public class ClientesRepositoryImpl implements ClientesRepository {
 
   private ClientesRepositoryFacade clientesRepository;
+  private ClientesProducer clientesProducer;
 
-  public ClientesRepositoryImpl(ClientesRepositoryFacade clientesRepository) {
+  public ClientesRepositoryImpl(ClientesRepositoryFacade clientesRepository, ClientesProducer clientesProducer) {
     this.clientesRepository = clientesRepository;
+    this.clientesProducer = clientesProducer;
   }
 
   @Override
@@ -84,6 +88,10 @@ public class ClientesRepositoryImpl implements ClientesRepository {
     );
 
     clientesRepository.save(projection);
+    clientesProducer.sendMessage(
+        "client-created",
+        cliente.toString()
+    );
 
   }
 
