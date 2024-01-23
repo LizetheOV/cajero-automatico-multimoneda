@@ -14,8 +14,8 @@ import org.springframework.data.mongodb.repository.MongoRepository;
  * <p>
  */
 
-public interface ClientesRepositoryFacade extends MongoRepository<ClientesProjection, String> {
-  ClientesProjection findByCi(String ci);
-  ClientesProjection findByCodigo(String codigo);
+public interface ClienteRepositoryFacade extends MongoRepository<ClienteProjection, String> {
+  ClienteProjection findByCi(String ci);
+  ClienteProjection findByCodigo(String codigo);
 
 }

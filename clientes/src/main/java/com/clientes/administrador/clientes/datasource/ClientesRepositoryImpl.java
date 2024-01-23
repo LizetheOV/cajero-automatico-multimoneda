@@ -6,13 +6,12 @@ import com.clientes.administrador.clientes.business.exceptions.ClienteYaExisteEx
 import com.clientes.administrador.clientes.business.models.Cliente;
 import com.clientes.administrador.clientes.business.repositories.ClientesRepository;
 import com.clientes.administrador.clientes.datasource.kafka.ClientesProducer;
-import com.clientes.administrador.clientes.datasource.mongodb.ClientesProjection;
-import com.clientes.administrador.clientes.datasource.mongodb.ClientesRepositoryFacade;
+import com.clientes.administrador.clientes.datasource.mongodb.ClienteProjection;
+import com.clientes.administrador.clientes.datasource.mongodb.ClienteRepositoryFacade;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -30,10 +29,10 @@ import java.util.UUID;
 @Slf4j
 public class ClientesRepositoryImpl implements ClientesRepository {
 
-  private ClientesRepositoryFacade clientesRepository;
+  private ClienteRepositoryFacade clientesRepository;
   private ClientesProducer clientesProducer;
 
-  public ClientesRepositoryImpl(ClientesRepositoryFacade clientesRepository, ClientesProducer clientesProducer) {
+  public ClientesRepositoryImpl(ClienteRepositoryFacade clientesRepository, ClientesProducer clientesProducer) {
     this.clientesRepository = clientesRepository;
     this.clientesProducer = clientesProducer;
   }
@@ -41,9 +40,9 @@ public class ClientesRepositoryImpl implements ClientesRepository {
   @Override
   public Cliente obtenerCliente(UUID codigo) throws ClienteNoEncontradoException {
 
-    ClientesProjection clientesProjection = clientesRepository.findByCodigo(codigo.toString());
+    ClienteProjection clienteProjection = clientesRepository.findByCodigo(codigo.toString());
 
-    if (Objects.isNull(clientesProjection)) {
+    if (Objects.isNull(clienteProjection)) {
 
       throw new ClienteNoEncontradoException(
           String.format("No se encontro registro de cliente con identificación: %s", codigo)
@@ -53,21 +52,21 @@ public class ClientesRepositoryImpl implements ClientesRepository {
 
     return new Cliente(
         codigo,
-        clientesProjection.getCi(),
-        clientesProjection.getEmail(),
-        clientesProjection.getNombre(),
-        clientesProjection.getApellido(),
-        clientesProjection.getTelefono(),
-        clientesProjection.getEstado()
+        clienteProjection.getCi(),
+        clienteProjection.getEmail(),
+        clienteProjection.getNombre(),
+        clienteProjection.getApellido(),
+        clienteProjection.getTelefono(),
+        clienteProjection.getEstado()
     );
   }
 
   @Override
   public void guardarCliente(Cliente cliente) throws ClienteYaExisteException {
 
-    ClientesProjection clientesProjection = clientesRepository.findByCi(cliente.getCi());
+    ClienteProjection clienteProjection = clientesRepository.findByCi(cliente.getCi());
 
-    if (Objects.nonNull(clientesProjection)) {
+    if (Objects.nonNull(clienteProjection)) {
 
       throw new ClienteYaExisteException(
           String.format("Ya existe un cliente registrado con el ci: %s", cliente.getCi())
@@ -75,7 +74,7 @@ public class ClientesRepositoryImpl implements ClientesRepository {
 
     }
 
-    ClientesProjection projection = new ClientesProjection(
+    ClienteProjection projection = new ClienteProjection(
         UUID.randomUUID().toString(),
         cliente.getCodigo().toString(),
         cliente.getCi(),

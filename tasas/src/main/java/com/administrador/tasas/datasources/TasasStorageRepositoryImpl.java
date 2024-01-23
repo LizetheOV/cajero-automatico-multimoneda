@@ -5,8 +5,8 @@ package com.administrador.tasas.datasources;
 import com.administrador.tasas.business.models.Tasa;
 import com.administrador.tasas.business.repositories.TasasStorageRepository;
 import com.administrador.tasas.business.utils.DateUtils;
-import com.administrador.tasas.datasources.mongodb.TasasProjection;
-import com.administrador.tasas.datasources.mongodb.TasasStorageRepositoryFacade;
+import com.administrador.tasas.datasources.mongodb.TasaProjection;
+import com.administrador.tasas.datasources.mongodb.TasaStorageRepositoryFacade;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -26,25 +26,25 @@ import java.util.UUID;
 @Component
 public class TasasStorageRepositoryImpl implements TasasStorageRepository {
 
-  private TasasStorageRepositoryFacade tasasStorage;
+  private TasaStorageRepositoryFacade tasasStorage;
 
-  public TasasStorageRepositoryImpl(TasasStorageRepositoryFacade tasasStorage) {
+  public TasasStorageRepositoryImpl(TasaStorageRepositoryFacade tasasStorage) {
     this.tasasStorage = tasasStorage;
   }
 
   @Override
   public Tasa obtenerTasa(String monedaOrigen, String monedaDestino) {
 
-    TasasProjection tasasProjection = tasasStorage.findByOrigenAndDestinoAndTimestampIsBetween(
+    TasaProjection tasaProjection = tasasStorage.findByOrigenAndDestinoAndTimestampIsBetween(
         monedaOrigen,
         monedaDestino,
         DateUtils.startOfDay(),
         DateUtils.endOfDay()
     );
 
-    if (Objects.nonNull(tasasProjection)) {
+    if (Objects.nonNull(tasaProjection)) {
 
-      return new Tasa(tasasProjection.getCotizacion(), tasasProjection.getTimestamp());
+      return new Tasa(tasaProjection.getCotizacion(), tasaProjection.getTimestamp());
 
     }
 
@@ -54,7 +54,7 @@ public class TasasStorageRepositoryImpl implements TasasStorageRepository {
   @Override
   public void guardarTasa(Tasa tasa, String monedaOrigen, String monedaDestino) {
 
-    TasasProjection tasasProjection = new TasasProjection(
+    TasaProjection tasaProjection = new TasaProjection(
         UUID.randomUUID().toString(),
         monedaOrigen,
         monedaDestino,
@@ -63,7 +63,7 @@ public class TasasStorageRepositoryImpl implements TasasStorageRepository {
         new Date()
     );
 
-    tasasStorage.save(tasasProjection);
+    tasasStorage.save(tasaProjection);
 
   }
 

@@ -1,5 +1,5 @@
 
-package com.transferencias.administrador.transacciones.datasources.postgres.cuentas;
+package com.productos.administrador.cuentas.datasource.postgres.clientes;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,8 +13,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * <p>
  */
 
-public interface CuentasRepositoryFacade extends JpaRepository<CuentasProjection, Long> {
+public interface ClienteRepositoryFacade extends JpaRepository<ClienteProjection, Long> {
 
-  CuentasProjection findByCodigo(String codigo);
+  ClienteProjection findByCodigo(String codigo);
 
 }

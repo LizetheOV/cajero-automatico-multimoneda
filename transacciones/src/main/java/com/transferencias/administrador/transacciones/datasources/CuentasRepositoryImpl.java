@@ -1,16 +1,9 @@
-/*
- *    Banco Bisa
- *    http://bisa.com
- *
- *    (C) 2020, Grupo Financiero Bisa
- *
- */
 
 package com.transferencias.administrador.transacciones.datasources;
 
 import com.transferencias.administrador.transacciones.business.repositories.CuentasRepository;
-import com.transferencias.administrador.transacciones.datasources.postgres.cuentas.CuentasProjection;
-import com.transferencias.administrador.transacciones.datasources.postgres.cuentas.CuentasRepositoryFacade;
+import com.transferencias.administrador.transacciones.datasources.postgres.cuentas.CuentaProjection;
+import com.transferencias.administrador.transacciones.datasources.postgres.cuentas.CuentaRepositoryFacade;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -28,22 +21,22 @@ import java.math.BigDecimal;
 @Component
 public class CuentasRepositoryImpl implements CuentasRepository {
 
-  private CuentasRepositoryFacade cuentasRepositoryFacade;
+  private CuentaRepositoryFacade cuentaRepositoryFacade;
 
-  public CuentasRepositoryImpl(CuentasRepositoryFacade cuentasRepositoryFacade) {
-    this.cuentasRepositoryFacade = cuentasRepositoryFacade;
+  public CuentasRepositoryImpl(CuentaRepositoryFacade cuentaRepositoryFacade) {
+    this.cuentaRepositoryFacade = cuentaRepositoryFacade;
   }
 
   @Override
   public void registrarCuenta(String codigo, String moneda, BigDecimal saldo, String estado) {
 
-    CuentasProjection cuentasProjection = new CuentasProjection();
-    cuentasProjection.setCodigo(codigo);
-    cuentasProjection.setMoneda(moneda);
-    cuentasProjection.setSaldo(saldo);
-    cuentasProjection.setEstado(estado);
+    CuentaProjection cuentaProjection = new CuentaProjection();
+    cuentaProjection.setCodigo(codigo);
+    cuentaProjection.setMoneda(moneda);
+    cuentaProjection.setSaldo(saldo);
+    cuentaProjection.setEstado(estado);
 
-    cuentasRepositoryFacade.save(cuentasProjection);
+    cuentaRepositoryFacade.save(cuentaProjection);
 
   }
 

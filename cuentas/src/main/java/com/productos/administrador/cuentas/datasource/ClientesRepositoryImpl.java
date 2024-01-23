@@ -2,8 +2,8 @@
 package com.productos.administrador.cuentas.datasource;
 
 import com.productos.administrador.cuentas.business.repositories.ClientesRepository;
-import com.productos.administrador.cuentas.datasource.postgres.clientes.ClientesProjection;
-import com.productos.administrador.cuentas.datasource.postgres.clientes.ClientesRepositoryFacade;
+import com.productos.administrador.cuentas.datasource.postgres.clientes.ClienteProjection;
+import com.productos.administrador.cuentas.datasource.postgres.clientes.ClienteRepositoryFacade;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -21,29 +21,29 @@ import java.util.Objects;
 @Component
 public class ClientesRepositoryImpl implements ClientesRepository {
 
-  private ClientesRepositoryFacade clientesRepositoryFacade;
+  private ClienteRepositoryFacade clienteRepositoryFacade;
 
-  public ClientesRepositoryImpl(ClientesRepositoryFacade clientesRepositoryFacade) {
-    this.clientesRepositoryFacade = clientesRepositoryFacade;
+  public ClientesRepositoryImpl(ClienteRepositoryFacade clienteRepositoryFacade) {
+    this.clienteRepositoryFacade = clienteRepositoryFacade;
   }
 
   @Override
   public void registrarCliente(String codigo, String estado) {
 
-    ClientesProjection clientesProjection = new ClientesProjection();
-    clientesProjection.setCodigo(codigo);
-    clientesProjection.setEstado(estado);
+    ClienteProjection clienteProjection = new ClienteProjection();
+    clienteProjection.setCodigo(codigo);
+    clienteProjection.setEstado(estado);
 
-    clientesRepositoryFacade.save(clientesProjection);
+    clienteRepositoryFacade.save(clienteProjection);
 
   }
 
   @Override
   public boolean existeCliente(String codigo) {
 
-    ClientesProjection clientesProjection = clientesRepositoryFacade.findByCodigo(codigo);
+    ClienteProjection clienteProjection = clienteRepositoryFacade.findByCodigo(codigo);
 
-    if (Objects.nonNull(clientesProjection)) {
+    if (Objects.nonNull(clienteProjection)) {
 
       return true;
 

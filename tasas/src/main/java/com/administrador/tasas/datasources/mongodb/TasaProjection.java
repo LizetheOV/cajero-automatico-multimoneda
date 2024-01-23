@@ -1,6 +1,6 @@
 
 
-package com.clientes.administrador.clientes.datasource.mongodb;
+package com.administrador.tasas.datasources.mongodb;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,33 +8,30 @@ import lombok.NoArgsConstructor;
 import nonapi.io.github.classgraph.json.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Project: cajero-automatico-multimoneda
- * Package: com.clientes.administrador.clientes.datasource.mongodb
+ * Package: com.administrador.tasas.datasources.mongodb
  * <p>
  * User: LOvandoV
  * Date: 22/1/2024
- * Time: 10:42
+ * Time: 07:21
  * <p>
  */
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "clientes")
-public class ClientesProjection {
+@Document(collection = "tasas")
+public class TasaProjection {
   @Id
   private String id;
-  private String codigo;
-  private String ci;
-  private String email;
-  private String nombre;
-  private String apellido;
-  private Integer telefono;
+  private String origen;
+  private String destino;
+  private BigDecimal cotizacion;
+  private Long timestamp;
   private Date fechaHoraRegistro;
-  private String estado;
 
 }
