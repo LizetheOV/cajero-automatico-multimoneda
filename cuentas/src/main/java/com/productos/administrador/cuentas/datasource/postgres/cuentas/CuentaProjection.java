@@ -42,8 +42,10 @@ public class CuentaProjection {
   @Column(name = "moneda")
   private String moneda;
   @Column(name = "fechaHoraRegistro")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date fechaHoraRegistro;
   @Column(name = "fechaHoraActualizacion")
+  @Temporal(TemporalType.TIMESTAMP)
   private Date fechaHoraActualizacion;
 
 }

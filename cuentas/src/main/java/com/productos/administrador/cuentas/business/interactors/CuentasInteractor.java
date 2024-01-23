@@ -8,6 +8,7 @@ import com.productos.administrador.cuentas.business.repositories.ClientesReposit
 import com.productos.administrador.cuentas.business.repositories.CuentasRepository;
 import com.productos.administrador.cuentas.business.repositories.TipoCambioRepository;
 import com.productos.administrador.cuentas.transport.dto.CuentaDTO;
+import com.productos.administrador.cuentas.transport.dto.SaldoCuentaDTO;
 import com.productos.administrador.cuentas.transport.dto.SaldoDTO;
 import org.springframework.stereotype.Service;
 
@@ -103,6 +104,10 @@ public class CuentasInteractor {
 
     return saldoDTO;
 
+  }
+
+  public void actualizarSaldo(SaldoCuentaDTO saldoCuentaDTO) {
+    cuentasRepository.actualizarSaldo(saldoCuentaDTO.getCodigo(), saldoCuentaDTO.getSaldo());
   }
 
 }
