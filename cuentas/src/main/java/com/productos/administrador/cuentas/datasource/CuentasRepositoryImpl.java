@@ -9,6 +9,7 @@ import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentaPro
 import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentaRepositoryFacade;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -76,6 +77,15 @@ public class CuentasRepositoryImpl implements CuentasRepository {
         cuentaProjection.getEstado()
     );
 
+  }
+
+  @Override
+  public void actualizarSaldo(String codigo, BigDecimal saldo) {
+
+    CuentaProjection cuentaProjection = cuentaRepositoryFacade.findByCodigo(codigo);
+    cuentaProjection.setSaldo(saldo);
+    cuentaRepositoryFacade.save(cuentaProjection);
+    
   }
 
 }

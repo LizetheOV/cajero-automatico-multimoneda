@@ -1,6 +1,9 @@
 
 package com.transferencias.administrador.transacciones.business.repositories;
 
+import com.transferencias.administrador.transacciones.business.exceptions.CuentaNoEncontradaException;
+import com.transferencias.administrador.transacciones.business.models.Cuenta;
+
 import java.math.BigDecimal;
 
 /**
@@ -15,6 +18,10 @@ import java.math.BigDecimal;
 
 public interface CuentasRepository {
 
-  void registrarCuenta(String codigo, String moneda, BigDecimal saldo, String estado);
+  void registrarCuenta(Cuenta cuenta);
+
+  Cuenta obtenerCuenta(String codigo) throws CuentaNoEncontradaException;
+
+  void actualizarSaldo(Cuenta cuenta);
 
 }

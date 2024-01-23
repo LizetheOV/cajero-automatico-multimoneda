@@ -1,6 +1,7 @@
 
 package com.transferencias.administrador.transacciones.business.interactors;
 
+import com.transferencias.administrador.transacciones.business.models.Cuenta;
 import com.transferencias.administrador.transacciones.business.repositories.CuentasRepository;
 import com.transferencias.administrador.transacciones.transport.dto.CuentaDTO;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,12 @@ public class CuentasInteractor {
   public void registrarCuenta(CuentaDTO cuentaDTO) {
 
     cuentasRepository.registrarCuenta(
-        cuentaDTO.getCodigo(),
-        cuentaDTO.getMoneda(),
-        cuentaDTO.getSaldo(),
-        cuentaDTO.getEstado()
+        new Cuenta(
+            cuentaDTO.getCodigo(),
+            cuentaDTO.getSaldo(),
+            cuentaDTO.getMoneda(),
+            cuentaDTO.getEstado()
+        )
     );
 
   }
