@@ -8,8 +8,7 @@ import com.transferencias.administrador.transacciones.datasources.postgres.trans
 import com.transferencias.administrador.transacciones.datasources.postgres.transacciones.TransaccionRepositoryFacade;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * Project: cajero-automatico-multimoneda
@@ -45,7 +44,7 @@ public class TransaccionesRepositoryImpl implements TransaccionesRepository {
     projection.setTipo(transaccion.getTipo());
     projection.setCuentaID(cuenta.getCodigo());
     projection.setSaldoFinal(cuenta.getSaldo());
-    projection.setFechaHoraRegistro(new Date(new java.util.Date().getTime()));
+    projection.setFechaHoraRegistro(new Date());
 
     transaccionRepositoryFacade.save(projection);
 

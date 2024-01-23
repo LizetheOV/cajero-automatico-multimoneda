@@ -17,6 +17,7 @@ services:
     volumes:
       - ./mongo-init-clientes.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
 
+  ### zookeeper y kafka para notificar eventos de registro y actualización de clientes y cuentas
   zookeeper:
     image: 'bitnami/zookeeper:latest'
     environment:

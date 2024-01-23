@@ -10,7 +10,7 @@ import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentaRep
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -38,7 +38,7 @@ public class CuentasRepositoryImpl implements CuentasRepository {
   public void guardarCuenta(Cuenta cuenta) {
 
     CuentaProjection cuentaProjection = new CuentaProjection();
-    Date fechaHoraActual = new Date(new java.util.Date().getTime());
+    Date fechaHoraActual = new Date();
 
     cuentaProjection.setCodigo(cuenta.getCodigo());
     cuentaProjection.setClienteID(cuenta.getClienteID());
@@ -84,8 +84,9 @@ public class CuentasRepositoryImpl implements CuentasRepository {
 
     CuentaProjection cuentaProjection = cuentaRepositoryFacade.findByCodigo(codigo);
     cuentaProjection.setSaldo(saldo);
+    cuentaProjection.setFechaHoraActualizacion(new Date());
     cuentaRepositoryFacade.save(cuentaProjection);
-    
+
   }
 
 }
