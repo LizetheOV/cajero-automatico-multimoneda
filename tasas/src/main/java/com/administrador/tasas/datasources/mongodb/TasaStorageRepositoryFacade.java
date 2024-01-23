@@ -15,7 +15,7 @@ import org.springframework.data.mongodb.repository.Query;
  * <p>
  */
 
-public interface TasasStorageRepositoryFacade extends MongoRepository<TasasProjection, String> {
+public interface TasaStorageRepositoryFacade extends MongoRepository<TasaProjection, String> {
   @Query("{'origen': ?0, 'destino': ?1, 'timestamp': {'$gte': ?2, '$lte': ?3}}")
-  TasasProjection findByOrigenAndDestinoAndTimestampIsBetween(String origen, String destino, Long inicio, Long fin);
+  TasaProjection findByOrigenAndDestinoAndTimestampIsBetween(String origen, String destino, Long inicio, Long fin);
 }

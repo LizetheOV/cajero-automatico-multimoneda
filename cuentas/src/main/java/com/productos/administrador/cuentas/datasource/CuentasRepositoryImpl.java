@@ -5,8 +5,8 @@ import com.productos.administrador.cuentas.business.exceptions.CuentaNoEncontrad
 import com.productos.administrador.cuentas.business.models.Cuenta;
 import com.productos.administrador.cuentas.business.repositories.CuentasRepository;
 import com.productos.administrador.cuentas.datasource.kafka.CuentasProducer;
-import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentasProjection;
-import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentasRepositoryFacade;
+import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentaProjection;
+import com.productos.administrador.cuentas.datasource.postgres.cuentas.CuentaRepositoryFacade;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -25,29 +25,29 @@ import java.util.Objects;
 @Component
 public class CuentasRepositoryImpl implements CuentasRepository {
 
-  private CuentasRepositoryFacade cuentasRepositoryFacade;
+  private CuentaRepositoryFacade cuentaRepositoryFacade;
   private CuentasProducer cuentasProducer;
 
-  public CuentasRepositoryImpl(CuentasRepositoryFacade cuentasRepositoryFacade, CuentasProducer cuentasProducer) {
-    this.cuentasRepositoryFacade = cuentasRepositoryFacade;
+  public CuentasRepositoryImpl(CuentaRepositoryFacade cuentaRepositoryFacade, CuentasProducer cuentasProducer) {
+    this.cuentaRepositoryFacade = cuentaRepositoryFacade;
     this.cuentasProducer = cuentasProducer;
   }
 
   @Override
   public void guardarCuenta(Cuenta cuenta) {
 
-    CuentasProjection cuentasProjection = new CuentasProjection();
+    CuentaProjection cuentaProjection = new CuentaProjection();
     Date fechaHoraActual = new Date(new java.util.Date().getTime());
 
-    cuentasProjection.setCodigo(cuenta.getCodigo());
-    cuentasProjection.setClienteID(cuenta.getClienteID());
-    cuentasProjection.setEstado(cuenta.getEstado());
-    cuentasProjection.setSaldo(cuenta.getSaldo());
-    cuentasProjection.setMoneda(cuenta.getMoneda());
-    cuentasProjection.setFechaHoraRegistro(fechaHoraActual);
-    cuentasProjection.setFechaHoraActualizacion(fechaHoraActual);
+    cuentaProjection.setCodigo(cuenta.getCodigo());
+    cuentaProjection.setClienteID(cuenta.getClienteID());
+    cuentaProjection.setEstado(cuenta.getEstado());
+    cuentaProjection.setSaldo(cuenta.getSaldo());
+    cuentaProjection.setMoneda(cuenta.getMoneda());
+    cuentaProjection.setFechaHoraRegistro(fechaHoraActual);
+    cuentaProjection.setFechaHoraActualizacion(fechaHoraActual);
 
-    cuentasRepositoryFacade.save(cuentasProjection);
+    cuentaRepositoryFacade.save(cuentaProjection);
     cuentasProducer.sendMessage(
         "cuenta-created",
         cuenta.toString()
@@ -58,9 +58,9 @@ public class CuentasRepositoryImpl implements CuentasRepository {
   @Override
   public Cuenta obtenerCuenta(String codigo) throws CuentaNoEncontradaException {
 
-    CuentasProjection cuentasProjection = cuentasRepositoryFacade.findByCodigo(codigo);
+    CuentaProjection cuentaProjection = cuentaRepositoryFacade.findByCodigo(codigo);
 
-    if (Objects.isNull(cuentasProjection)) {
+    if (Objects.isNull(cuentaProjection)) {
 
       throw new CuentaNoEncontradaException(
           String.format("No se encontro una cuenta con el codigo: %s", codigo)
@@ -70,10 +70,10 @@ public class CuentasRepositoryImpl implements CuentasRepository {
 
     return new Cuenta(
         codigo,
-        cuentasProjection.getClienteID(),
-        cuentasProjection.getSaldo(),
-        cuentasProjection.getMoneda(),
-        cuentasProjection.getEstado()
+        cuentaProjection.getClienteID(),
+        cuentaProjection.getSaldo(),
+        cuentaProjection.getMoneda(),
+        cuentaProjection.getEstado()
     );
 
   }

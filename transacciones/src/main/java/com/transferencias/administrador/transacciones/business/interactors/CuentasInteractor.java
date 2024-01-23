@@ -1,10 +1,3 @@
-/*
- *    Banco Bisa
- *    http://bisa.com
- *
- *    (C) 2020, Grupo Financiero Bisa
- *
- */
 
 package com.transferencias.administrador.transacciones.business.interactors;
 

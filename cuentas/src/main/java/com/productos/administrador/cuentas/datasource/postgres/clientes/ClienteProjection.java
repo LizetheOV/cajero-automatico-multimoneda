@@ -24,7 +24,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table(name = "clientes")
-public class ClientesProjection {
+public class ClienteProjection {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

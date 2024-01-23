@@ -1,10 +1,3 @@
-/*
- *    Banco Bisa
- *    http://bisa.com
- *
- *    (C) 2020, Grupo Financiero Bisa
- *
- */
 
 package com.productos.administrador.cuentas.datasource.postgres.cuentas;
 
@@ -33,7 +26,7 @@ import java.sql.Date;
 @Builder
 @Entity
 @Table(name = "cuentas")
-public class CuentasProjection {
+public class CuentaProjection {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

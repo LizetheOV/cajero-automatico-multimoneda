@@ -1,10 +1,3 @@
-/*
- *    Banco Bisa
- *    http://bisa.com
- *
- *    (C) 2020, Grupo Financiero Bisa
- *
- */
 
 package com.transferencias.administrador.transacciones.datasources.postgres.cuentas;
 
@@ -15,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.sql.Date;
 
 /**
  * Project: cajero-automatico-multimoneda
@@ -33,7 +25,7 @@ import java.sql.Date;
 @Builder
 @Entity
 @Table(name = "cuentas")
-public class CuentasProjection {
+public class CuentaProjection {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
