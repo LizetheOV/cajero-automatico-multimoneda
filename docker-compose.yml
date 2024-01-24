@@ -8,6 +8,8 @@ services:
       context: .
       dockerfile: ./clientes/Dockerfile
     container_name: clientes-app
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
     networks:
       - cajero-network
     ports:
@@ -19,6 +21,8 @@ services:
       context: .
       dockerfile: ./cuentas/Dockerfile
     container_name: cuentas-app
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
     networks:
       - cajero-network
     ports:
@@ -30,6 +34,8 @@ services:
       context: .
       dockerfile: ./transacciones/Dockerfile
     container_name: transacciones-app
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
     networks:
       - cajero-network
     ports:
@@ -41,6 +47,8 @@ services:
       context: .
       dockerfile: ./tasas/Dockerfile
     container_name: tasas-app
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
     networks:
       - cajero-network
     ports:

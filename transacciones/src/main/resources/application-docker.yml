@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://transacciones-database:5433/transacciones-database
+    username: transaccionesUser
+    password: transacciones1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: cuenta-group
+connections:
+  gateway: http://tasas-app:8003
+
