@@ -6,6 +6,7 @@ services:
   clientes-database:
     container_name: clientes-database
     image: mongodb/mongodb-community-server:6.0-ubi8
+    restart: unless-stopped
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=clientesUser
       - MONGODB_INITDB_ROOT_PASSWORD=clientes1234
@@ -20,6 +21,7 @@ services:
   ### zookeeper y kafka para notificar eventos de registro y actualización de clientes y cuentas
   zookeeper:
     image: 'bitnami/zookeeper:latest'
+    restart: unless-stopped
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
     networks:
@@ -28,6 +30,7 @@ services:
       - "2181:2181"
   kafka:
     image: 'bitnami/kafka:latest'
+    restart: unless-stopped
     user: root
     depends_on:
       - zookeeper
@@ -75,6 +78,7 @@ services:
   tasas-database:
     container_name: tasas-database
     image: mongodb/mongodb-community-server:6.0-ubi8
+    restart: unless-stopped
     environment:
       - MONGODB_INITDB_ROOT_USERNAME=tasasUser
       - MONGODB_INITDB_ROOT_PASSWORD=tasas1234

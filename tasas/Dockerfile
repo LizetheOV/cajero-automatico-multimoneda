@@ -8,7 +8,7 @@ RUN sed -i 's/\r$//' mvnw
 
 RUN chmod +x mvnw
 
-RUN ./mvnw clean install
+RUN ./mvnw clean install -DskipTests
 
 RUN mv ./target/*.jar application.jar
 

@@ -2,6 +2,96 @@ version: '3.3'
 
 services:
 
+  ### Base de datos mongo para clientes
+  clientes-database:
+    container_name: clientes-database
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    restart: unless-stopped
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=clientesUser
+      - MONGODB_INITDB_ROOT_PASSWORD=clientes1234
+      - MONGODB_INITDB_DATABASE=admin
+    networks:
+      - cajero-network
+    ports:
+      - "27027:27017"
+    volumes:
+      - ./servicios/mongo-init-clientes.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
+  ### zookeeper y kafka para notificar eventos de registro y actualización de clientes y cuentas
+  zookeeper:
+    image: bitnami/zookeeper:3.9.1
+    container_name: zookeeper
+    restart: unless-stopped
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - cajero-network
+    ports:
+      - "2181:2181"
+  kafka:
+    image: bitnami/kafka:3.4.1
+    container_name: kafka
+    restart: unless-stopped
+    user: root
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_MESSAGE_MAX_BYTES=2147483647
+    networks:
+      - cajero-network
+    ports:
+      - '9092:9092'
+
+  ### Base de datos Postgres para cuentas
+  cuentas-database:
+    container_name: cuentas-database
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cuentas-database
+      POSTGRES_USER: cuentasUser
+      POSTGRES_PASSWORD: cuentas1234
+    networks:
+      - cajero-network
+    ports:
+      - "5431:5432"
+
+  ### Base de datos Postgres para transacciones
+  transacciones-database:
+    container_name: transacciones-database
+    image: postgres:12
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: transacciones-database
+      POSTGRES_USER: transaccionesUser
+      POSTGRES_PASSWORD: transacciones1234
+    networks:
+      - cajero-network
+    ports:
+      - "5433:5432"
+
+  ### Base de datos mongo para tasas
+  tasas-database:
+    container_name: tasas-database
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    restart: unless-stopped
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=tasasUser
+      - MONGODB_INITDB_ROOT_PASSWORD=tasas1234
+      - MONGODB_INITDB_DATABASE=admin
+    networks:
+      - cajero-network
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./servicios/mongo-init-tasas.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+
   clientes-app:
     image: cajero-multimoneda/clientes-app:1.0.0
     build:
@@ -9,7 +99,10 @@ services:
       dockerfile: ./clientes/Dockerfile
     container_name: clientes-app
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - clientes-database
+      - kafka
     networks:
       - cajero-network
     ports:
@@ -22,7 +115,10 @@ services:
       dockerfile: ./cuentas/Dockerfile
     container_name: cuentas-app
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - cuentas-database
+      - kafka
     networks:
       - cajero-network
     ports:
@@ -35,7 +131,10 @@ services:
       dockerfile: ./transacciones/Dockerfile
     container_name: transacciones-app
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - transacciones-database
+      - kafka
     networks:
       - cajero-network
     ports:
@@ -48,7 +147,9 @@ services:
       dockerfile: ./tasas/Dockerfile
     container_name: tasas-app
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - tasas-database
     networks:
       - cajero-network
     ports:

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://transacciones-database:5433/transacciones-database
+    url: jdbc:postgresql://transacciones-database:5432/transacciones-database
     username: transaccionesUser
     password: transacciones1234
   jpa:
