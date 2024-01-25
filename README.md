@@ -18,12 +18,24 @@ microservicios en java con docker
 
 Para el proceso de implementación se considero los siguientes patrones de diseño:
 
-1. Delegate: Para la implementación de apis REST generadas con openapi
-2. Facade: Para a implementación de Repositorios de Datos
+1. **Delegate**: Para la implementación de apis REST generadas con openapi
+2. **Facade**: Para a implementación de Repositorios de Datos
 
-###  
+### Documentación
+
+#### Documentación de Apis
+Se implementó el proceso de documentación median openapi, cada microservicio tiene su documentación las siguientes rutas:
+1. [Api Tasas](./tasas/src/main/resources/docs/tasas.yaml)
+2. [Api Clientes](./clientes/src/main/resources/docs/clientes.yaml)
+3. [Api Cuentas](./cuentas/src/main/resources/docs/cuentas.yaml)
+4. [Api Transacciones](./transacciones/src/main/resources/docs/transacciones.yaml) 
+
+#### Documentación Técnica
+
+La documentación de la propuesta técnica de arquitectura se encuentra en [Propuesta Técnica](./docs/Propuesta_Tecnica.md)
 
 La implementación de este proyecto contempla la siguiente estructura de despliegue:
+
 ![alt text](./docs/DiagramaDespliegue.png)
 
 ### Contenedores
