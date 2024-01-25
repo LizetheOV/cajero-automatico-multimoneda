@@ -1,0 +1,67 @@
+@startuml
+left to right direction
+
+package Cliente {
+   actor "Cajero" as cajero
+   actor "Aplicación" as app
+}
+
+package Deposito {
+  usecase "Depositar fondos" as depositar
+  usecase "Convertir moneda" as convertirDeposito
+  usecase "Registrar transacción" as registrarDeposito
+  usecase "Verificar cuenta" as verificarCuentaDeposito
+  usecase "Publicar transaccion" as publicarDeposito
+  json MONEDA_DEPOSITO {
+     "local": "BOB",
+     "extrangera": "USD"
+  }
+}
+
+package Retiro {
+  usecase "Retirar fondos" as retirar
+  usecase "Convertir moneda" as convertirRetiro
+  usecase "Registrar transacción" as registrarRetiro
+  usecase "Verificar cuenta" as verificarCuentaRetiro
+  usecase "Verificar saldo" as verificarSaldoRetiro
+  usecase "Publicar transaccion" as publicarRetiro
+  usecase "Fondos Insuficientes" as fundosInsuficientes
+  json MONEDA_RETIRO {
+     "local": "BOB",
+     "extrangera": "USD"
+  }
+}
+
+package Convertir {
+  usecase "Obtener tipo de cambio" as tipoCambio
+  usecase "Convertir moneda" as convertir
+  usecase "Registrar transacción" as registrarTransaccion
+  json MONEDA {
+     "local": "BOB",
+     "extrangera": "USD"
+  }
+}
+
+:Cliente: -down--> depositar
+:depositar: -down.> verificarCuentaDeposito: include
+:depositar: -down.> registrarDeposito: include
+:depositar: -down.> publicarDeposito: include
+:convertirDeposito: -up-> depositar: extends
+depositar -left- MONEDA_DEPOSITO
+
+:Cliente: -down--> retirar
+:retirar: -down.> verificarCuentaRetiro: include
+:retirar: -down.> verificarSaldoRetiro: include
+:retirar: -down.> fundosInsuficientes: extends
+:retirar: -down.> registrarRetiro: include
+:retirar: -down.> publicarRetiro: include
+:convertirRetiro: -up-> retirar: extends
+retirar-right- MONEDA_RETIRO
+
+
+:Cliente: -down--> convertir
+:convertir: -down.> tipoCambio: include
+:convertir: -down.> registrarTransaccion: include
+
+convertir-right- MONEDA
+@enduml
