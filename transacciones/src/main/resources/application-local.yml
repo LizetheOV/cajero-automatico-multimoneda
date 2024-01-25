@@ -11,7 +11,7 @@ spring:
     consumer:
       group-id: cuenta-group
 connections:
-  gateway: http://localhost:8080
+  gateway: http://localhost:8003
 server:
-  port: 8060
+  port: 8002
 

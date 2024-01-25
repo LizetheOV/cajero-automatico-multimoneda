@@ -11,6 +11,6 @@ spring:
     consumer:
       group-id: cliente-group
 connections:
-  gateway: http://localhost:8080
+  gateway: http://localhost:8003
 server:
-  port: 8070
+  port: 8001
