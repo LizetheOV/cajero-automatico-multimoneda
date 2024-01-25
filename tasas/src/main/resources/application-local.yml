@@ -18,3 +18,5 @@ logging:
           mongodb:
             core:
               MongoTemplate: DEBUG
+server:
+  port: 8003
