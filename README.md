@@ -67,7 +67,7 @@ La documentación de las apis se puede consultar mediante http://localhost:8000/
 **Nota**: para la creación no es necesario ingresar campo id, pero sera requerido para crear la cuenta
 
 ````http request
-http://localhost:8001/clientes/crear'
+POST http://localhost:8001/clientes/crear
 ````
 ````json
 {
@@ -85,7 +85,7 @@ La documentación de las apis se puede consultar mediante http://localhost:8001/
 **Nota**: para la creación no es necesario ingresar campo id, pero debera ser usado id para ejecutar transacciones
 
 ````http request
-http://localhost:8001/cuentas/crear'
+POST http://localhost:8001/cuentas/crear
 ````
 ````json
 {
@@ -99,9 +99,8 @@ El microservicio de cuentas se estara ejecutando en la siguiente ruta: http://lo
 La documentación de las apis se puede consultar mediante http://localhost:8001/swagger-ui/index.html
 **Nota**: para consultar el saldo necesitara el ID de la cuenta que fue retornado al crear la cuenta
 
-Ejemplo Input:
 ````http request
-http://localhost:8001/cuentas/065a6905-1412-4c7a-bc45-d22e00a59300'
+GET http://localhost:8001/cuentas/065a6905-1412-4c7a-bc45-d22e00a59300
 ````
 
 #### Realizar Retiro
@@ -110,7 +109,7 @@ La documentación de las apis se puede consultar mediante http://localhost:8002/
 **Nota**: para la creación no es necesario ingresar campo id
 
 ````http request
-http://localhost:8002/transacciones/retiro
+POST http://localhost:8002/transacciones/retiro
 ````
 ````json
 {
@@ -126,7 +125,7 @@ La documentación de las apis se puede consultar mediante http://localhost:8002/
 **Nota**: para la creación no es necesario ingresar campo id
 
 ````http request
-http://localhost:8002/transacciones/deposito
+POST http://localhost:8002/transacciones/deposito
 ````
 ````json
 {
