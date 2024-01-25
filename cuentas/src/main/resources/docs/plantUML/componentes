@@ -1,0 +1,53 @@
+@startuml
+package "transport" {
+  HTTP - [CrearCuenta]
+  HTTP - [ConsultaSaldo]
+  event - [ClienteCreado]
+}
+
+package "business" {
+  [repositories]
+  [models]
+  [interactors]
+}
+
+package "repositories" {
+  [cuentasRepository]
+  [clientesRepository]
+  [cotizacionesRepository]
+}
+
+package "models" {
+  [Cuenta]
+  [Cliente]
+}
+
+
+package "datasource" {
+  [kafka]
+  [postgres]
+  [webclient]
+}
+
+database "postgresql" {
+}
+
+node "cuentaCreada" {
+}
+
+node "tasas" {
+}
+
+
+[transport] --> [business]
+[interactors] --> [models]
+[interactors] --> [repositories]
+[repositories] --> [datasource]
+[clientesRepository] --> [postgres]
+[cuentasRepository] --> [postgres]
+[postgres] --> [postgresql]
+[kafka] --> [cuentaCreada]
+[cotizacionesRepository] --> [webclient]
+[webclient] --> () REST: use
+REST - [tasas]
+@enduml
