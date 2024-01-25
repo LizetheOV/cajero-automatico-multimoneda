@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+
+actor "Cliente" as user
+
+usecase "Crear Cuenta" as crear
+usecase "Consultar saldo" as consultar
+usecase "Verificar onboarding" as onboarging
+usecase "Registrar Saldo" as registrar
+usecase "Publicar evento" as publicar
+usecase "Obtener tipo de Cambio" as tipoCambio
+
+:user: -down-> crear
+:crear: -down.> onboarging: include
+:crear: -down.>  registrar: include
+:crear: -down.>  publicar: include
+:user: -down-> consultar
+:tipoCambio: -up.> consultar: extends
+json MONEDA {
+   "local": "BOB",
+   "extrangera": "USD"
+}
+consultar - MONEDA
+@enduml

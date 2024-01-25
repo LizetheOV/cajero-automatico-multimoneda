@@ -1,0 +1,22 @@
+@startuml
+left to right direction
+
+package Aplicacion {
+   actor "Administrador de Cuentas" as cuentas
+   actor "Administrador de Transacciones" as transacciones
+}
+
+
+usecase "Consultar tipo cambio" as consulta
+usecase "Consultar registro del dia" as tipoCambioDia
+usecase "Consultar api https://currencylayer.com" as tipoCambioActual
+
+:Aplicacion: -down--> consulta
+:consulta: -down.>  tipoCambioDia: include
+:tipoCambioActual: -up->  consulta: extends
+json MONEDA {
+   "local": "BOB",
+   "extrangera": "USD"
+}
+consulta - MONEDA
+@enduml

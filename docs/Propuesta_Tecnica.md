@@ -5,25 +5,27 @@
 3. [Vision de Arquitectura](#vision)
 4. [Escenarios](#escenarios)
 5. [Modelo de Vistas de Arquitectura](#vistas)
-    1. [Vista Lógica](#logica)
+    1. [Vista de casos de uso](#casoUso)
+    2. [Vista Lógica](#logica)
     2. [Vista de Desarrollo](#desarrollo)
     3. [Vista de Proceso](#proceso)
     4. [Vista Física](#fisica)
 
 ## Decisiones de Arquitectura <a name="decisiones"></a>
 
-| Número | Título                                                 | Descripción                                                                                                                                                                                            |
-|--------|:-------------------------------------------------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| D-001  | Estilo de Arquitectura                                 | La solución tomara como estilo de arquitectura: Capas                                                                                                                                                  |
-| D-002  | Infraestructura Base                                   | A nivel de infraestructura, se decidió apoyarse en contenedores, indistintamente de la plataforma                                                                                                      |
-| D-003  | Patrón Primario - Microservicios                       | Se toma como patrón primario Microservicios, por que nos permite distribuir la funcionalidad en componentes independientes                                                                             |
-| D-004  | Patrón complementario - Database per Service           | Para la capa de datos se propone una base de datos por microservicio, para componentes transaccionales se usara postgres y mongodb para información solo de registro                                   |
-| D-005  | Patrón complementario - CQRS                           | Para un buen rendimiento en las consultas se propone CQRS, para que cada microservicio, sea responsable de mantener la información que necesita para realizar sus operaciones en vistas materializadas |
-| D-006  | Patrón complementario - Saga                           | Para la sincronización de las bases de datos de cada servicio, cada servicio actualiza la base de datos y publicará un evento mediante el broker de mensajeria kafka                                   |
-| D-007  | Patrón complementario - Service instance per container | Para facilitar el proceso de escalamiento horizontal de los servicios con mayor carga se propone desplegar un servicio por contenedor                                                                  |
-| D-008  | Uso de Api para cotizaciones                           | Se propone utilizar un servicio externo como https://currencylayer.com/ para obtener los tipos de cambio                                                                                               |
-| D-009  | Patrón complementario - Api Gateway                    | Se propone un único punto de acceso a la infraestructura para labores de balanceo de carga y seguridad.                                                                                                |                                                                                                                                                                                                |
-| D-010  | Patrón complementario - Brokered Authentication        | Apoyando el API Gateway, usando Brokered Authentication se garantizará una primera verificación de seguridad dentro de la infraestructura                                                              |                                                                                                                                                                                                |
+| Número | Título                                                 | Descripción                                                                                                                                                                                               |
+|--------|:-------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| D-001  | Estilo de Arquitectura                                 | La solución tomará como estilo el patrón SOA                                                                                                                                                              |
+| D-002  | Infraestructura Base                                   | A nivel de infraestructura, se decidió apoyarse en contenedores, indistintamente de la plataforma                                                                                                         |
+| D-003  | Patrón complementario - Microservicios                 | Se toma como patrón complementario microservicios, por que nos permite distribuir la funcionalidad en componentes independientes                                                                          |
+| D-003  | Patrón complementario - Capas                          | Se toma como patrón complementario capas, con enfoque de arquitectura hexagonal para alinear la distribución de microservicios a dominios y encapsular la lógica de negocio en el nucleo de la aplicación |
+| D-004  | Patrón complementario - Database per Service           | Para la capa de datos se propone una base de datos por microservicio, para componentes transaccionales se usara postgres y mongodb para información solo de registro                                      |
+| D-005  | Patrón complementario - CQRS                           | Para un buen rendimiento en las consultas se propone CQRS, para que cada microservicio, sea responsable de mantener la información que necesita para realizar sus operaciones en vistas materializadas    |
+| D-006  | Patrón complementario - Saga                           | Para la sincronización de las bases de datos de cada servicio, cada servicio actualiza la base de datos y publicará un evento mediante el broker de mensajeria kafka                                      |
+| D-007  | Patrón complementario - Service instance per container | Para facilitar el proceso de escalamiento horizontal de los servicios con mayor carga se propone desplegar un servicio por contenedor                                                                     |
+| D-008  | Uso de Api para cotizaciones                           | Se propone utilizar un servicio externo como https://currencylayer.com/ para obtener los tipos de cambio                                                                                                  |
+| D-009  | Patrón complementario - Api Gateway                    | Se propone un único punto de acceso a la infraestructura para labores de balanceo de carga y seguridad.                                                                                                   |                                                                                                                                                                                                |
+| D-010  | Patrón complementario - Brokered Authentication        | Apoyando el API Gateway, usando Brokered Authentication se garantizará una primera verificación de seguridad dentro de la infraestructura                                                                 |                                                                                                                                                                                                |
 
 ## Atributos de Calidad <a name="atributos"></a>
 
@@ -157,28 +159,48 @@ A = Alto, M = Medio, B = Bajo
 
 ## Modelo de Vistas de Arquitectura <a name="vistas"></a>
 
+### Vista casos de uso <a name="casoUso"></a>
+
+#### Gestión de Cuentas
+
+![alt text](../docs/casos/gestionCuentas.png)
+
+#### Gestión de Transacciones
+
+![alt text](../docs/casos/gestionTransacciones.png)
+
+#### Gestión de Tasas de Cambio
+
+![alt text](../docs/casos/gestionTasas.png)
+
 ### Vista Lógica <a name="logica"></a>
 
 #### Tasas
+
 ![alt text](../docs/clases/tasas.png)
 
 #### Clientes
+
 ![alt text](../docs/clases/clientes.png)
 
 #### Cuentas
+
 ![alt text](../docs/clases/cuentas.png)
 
 #### Transacciones
+
 ![alt text](../docs/clases/transacciones.png)
 
 ### Vista de Desarrollo <a name="desarrollo"></a>
 
 #### Cuentas
+
 ![alt text](../docs/componentes/cuentas.png)
 
 ### Vista de Proceso <a name="proceso"></a>
 
 #### Transaccion - Caso Ideal
+
 ![alt text](../docs/secuencias/transaccion.png)
 
 ### Vista Física <a name="fisica"></a>
