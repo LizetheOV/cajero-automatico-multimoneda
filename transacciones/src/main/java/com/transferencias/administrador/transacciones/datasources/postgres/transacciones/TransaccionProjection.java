@@ -23,7 +23,6 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Entity
 @Table(name = "transacciones")
 public class TransaccionProjection {

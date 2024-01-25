@@ -2,7 +2,7 @@ spring:
   data:
     mongodb:
       host: clientes-database
-      port: 27027
+      port: 27017
       database: clientes-database
       username: clientesUser
       password: clientes1234

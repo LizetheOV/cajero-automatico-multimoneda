@@ -8,6 +8,8 @@ Este es un proyecto para un reto práctico de LMS que simula un cajero automatic
 * Openapi: 3.0.1
 * Postgres 12
 * MongoDB 6.0.12
+* Zookeeper 3.9.1
+* Kafka 3.4.1
 
-La implementación de este proyecto contempla la siguiente estructura de despligue:
+La implementación de este proyecto contempla la siguiente estructura de despliegue:
 ![alt text](./docs/DiagramaDespliegue.png)
