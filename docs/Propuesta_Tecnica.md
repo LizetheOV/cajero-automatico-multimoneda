@@ -161,17 +161,23 @@ A = Alto, M = Medio, B = Bajo
 
 ### Vista casos de uso <a name="casoUso"></a>
 
-#### Gestión de Cuentas
+#### Gestión de Cuentas 
 
 ![alt text](../docs/casos/gestionCuentas.png)
+
+[Fuente](../cuentas/src/main/resources/docs/plantUML/casos.puml)
 
 #### Gestión de Transacciones
 
 ![alt text](../docs/casos/gestionTransacciones.png)
 
+[Fuente](../transacciones/src/main/resources/docs/plantUML/caso.puml)
+
 #### Gestión de Tasas de Cambio
 
 ![alt text](../docs/casos/gestionTasas.png)
+
+[Fuente](../tasas/src/main/resources/docs/plantUML/caso.puml)
 
 ### Vista Lógica <a name="logica"></a>
 
@@ -197,11 +203,15 @@ A = Alto, M = Medio, B = Bajo
 
 ![alt text](../docs/componentes/cuentas.png)
 
+[Fuente](../cuentas/src/main/resources/docs/plantUML/componentes.puml)
+
 ### Vista de Proceso <a name="proceso"></a>
 
 #### Transaccion - Caso Ideal
 
 ![alt text](../docs/secuencias/transaccion.png)
+
+[Fuente](../transacciones/src/main/resources/docs/plantUML/secuenciaTransferenciaExitosa.puml)
 
 ### Vista Física <a name="fisica"></a>
 
