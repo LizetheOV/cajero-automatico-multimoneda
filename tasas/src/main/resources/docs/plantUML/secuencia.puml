@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+ClienteApp -> TasasApp: Consulta tipo cambio
+TasasApp -> BaseDatos: Consulta si existe tipo cambio para el día
+BaseDatos -> TasasApp: No existe registro para el día
+TasasApp -> CurrencyLayer: Consulta tipo cambio actual
+CurrencyLayer -> TasasApp: Retorna cotización
+TasasApp -> BaseDatos: Almacenar tipo cambio para el día
+TasasApp -> ClienteApp: Retorna tipo cambio
+
+@enduml

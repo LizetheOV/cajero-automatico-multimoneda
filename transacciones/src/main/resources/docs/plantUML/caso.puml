@@ -6,7 +6,7 @@ package Cliente {
    actor "Aplicación" as app
 }
 
-package Deposito {
+package Depósito {
   usecase "Depositar fondos" as depositar
   usecase "Convertir moneda" as convertirDeposito
   usecase "Registrar transacción" as registrarDeposito
@@ -25,7 +25,6 @@ package Retiro {
   usecase "Verificar cuenta" as verificarCuentaRetiro
   usecase "Verificar saldo" as verificarSaldoRetiro
   usecase "Publicar transaccion" as publicarRetiro
-  usecase "Fondos Insuficientes" as fundosInsuficientes
   json MONEDA_RETIRO {
      "local": "BOB",
      "extrangera": "USD"
@@ -52,7 +51,6 @@ depositar -left- MONEDA_DEPOSITO
 :Cliente: -down--> retirar
 :retirar: -down.> verificarCuentaRetiro: include
 :retirar: -down.> verificarSaldoRetiro: include
-:retirar: -down.> fundosInsuficientes: extends
 :retirar: -down.> registrarRetiro: include
 :retirar: -down.> publicarRetiro: include
 :convertirRetiro: -up-> retirar: extends

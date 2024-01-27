@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Usuario -> ClienteApp: Crear Cliente
+ClienteApp -> BaseDatos: Consulta si ya existe un cliente con ci
+BaseDatos -> ClienteApp: No existe cliente
+ClienteApp -> ClienteApp: Crear cliente
+ClienteApp -> BaseDatos: Registrar cliente creado
+ClienteApp --> Kafka: Publicar cliente creado
+ClienteApp -> Usuario: Cliente creado
+
+@enduml

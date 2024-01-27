@@ -8,17 +8,17 @@ Cajero -> Cliente: Consulta Operación a Realizar
 Cliente -> Cajero: Selecciona Retiro
 Cajero -> Cliente: Solicita Información para realizar transacción
 Cliente -> Cajero: Ingresa datos de cuenta, monto y moneda (distinto a moneda de cuenta)
-Cajero -> AdministradorTransacciones: Solicitar Ejecutar Transaccion
+Cajero -> AdministradorTransacciones: Solicitar Ejecutar Transacción
 AdministradorTransacciones -> AdministradorTransacciones: Verifica estado y moneda
 AdministradorTransacciones -> AdministradorTasas: Consulta Tipo de cambio
 AdministradorTasas -> AdministradorTransacciones: Retorna tipo Cambio
 AdministradorTransacciones -> AdministradorTransacciones: Verifica saldo de cuenta con tipo de cambio
-AdministradorTransacciones -> AdministradorTransacciones: Ejecuta Transaccion
-AdministradorTransacciones -> Kafka: Notifica transaccion
-AdministradorTransacciones -> Cajero: Notifica transaccion existosa
-Kafka-> AdministradorCuentas: Actualización saldo
-AdministradorCuentas ->  Kafka: Notifica actualización de saldo en cuenta
-Kafka -> AdministradorTransacciones: Actualización cuenta
+AdministradorTransacciones -> AdministradorTransacciones: Ejecuta Transacción
+AdministradorTransacciones --> Kafka: Notifica transacción
+AdministradorTransacciones -> Cajero: Notifica transacción existosa
 Cajero -> Cliente: Entrega efectivo
-Cliente -> Cajero: Concluye transaccion
+Cliente -> Cajero: Concluye transacción
+Kafka--> AdministradorCuentas: Actualización saldo
+AdministradorCuentas -->  Kafka: Notifica actualización de saldo en cuenta
+Kafka --> AdministradorTransacciones: Actualización cuenta
 @enduml

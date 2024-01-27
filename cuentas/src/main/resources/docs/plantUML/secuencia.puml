@@ -1,0 +1,12 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+autonumber
+Usuario -> CuentasApp: Crear Cuenta
+CuentasApp -> BaseDatos: Consulta si ya existe un cliente creado
+BaseDatos -> CuentasApp: Existe cliente
+CuentasApp -> CuentasApp: Crear cuenta
+CuentasApp -> BaseDatos: Registrar creación de cuenta
+CuentasApp --> kafkaProducer: Publicar creación de cuenta
+CuentasApp -> Usuario: Cuenta creada
+
+@enduml
