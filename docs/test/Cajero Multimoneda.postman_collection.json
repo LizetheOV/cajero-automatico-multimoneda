@@ -1,0 +1,171 @@
+{
+	"info": {
+		"_postman_id": "b36c2417-bb30-45e7-96d0-088f0e22b808",
+		"name": "Cajero Multimoneda",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "22433884",
+		"_collection_link": "https://dark-water-231021.postman.co/workspace/Team-Workspace~ef84d015-882d-4bb3-83ba-615373e6c1e2/collection/22433884-b36c2417-bb30-45e7-96d0-088f0e22b808?action=share&source=collection_link&creator=22433884"
+	},
+	"item": [
+		{
+			"name": "Crear Cliente",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cliente creado\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(jsonData);\r",
+							"    pm.environment.set(\"clienteID\", jsonData.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"ci\": \"6517735\",\r\n  \"email\": \"lovandov@gmail.com\",\r\n  \"nombre\": \"Lizeth\",\r\n  \"apellido\": \"Ovando Velasques\",\r\n  \"telefono\": 79995746\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8000/clientes/crear"
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Cuenta",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Cuenta creada\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"cuentaID\", jsonData.id);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"clienteID\": \"{{clienteID}}\",\r\n  \"moneda\": \"BOB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8001/cuentas/crear"
+			},
+			"response": []
+		},
+		{
+			"name": "Depositar Fondos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Realizar Deposito\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"saldo\", jsonData.saldo);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cuentaID\": \"{{cuentaID}}\",\r\n  \"monto\": 100,\r\n  \"moneda\": \"BOB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8002/transacciones/deposito"
+			},
+			"response": []
+		},
+		{
+			"name": "Retirar Fondos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Realizar Retiro\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"saldo\", jsonData.saldo);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cuentaID\": \"{{cuentaID}}\",\r\n  \"monto\": 10,\r\n  \"moneda\": \"BOB\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8002/transacciones/retiro"
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Saldo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Realizar Retiro\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    jsonData.monto == pm.environment.get(\"saldo\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8001/cuentas/saldo/{{cuentaID}}/BOB"
+			},
+			"response": []
+		}
+	]
+}

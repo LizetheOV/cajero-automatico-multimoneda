@@ -17,10 +17,10 @@
 |--------|:-------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | D-001  | Estilo de Arquitectura                                 | La solución tomará como estilo el patrón SOA                                                                                                                                                              |
 | D-002  | Infraestructura Base                                   | A nivel de infraestructura, se decidió apoyarse en contenedores, indistintamente de la plataforma                                                                                                         |
+| D-003  | Patrón dominante - Capas                               | Se toma como patrón complementario capas, con enfoque de arquitectura hexagonal para alinear la distribución de microservicios a dominios y encapsular la lógica de negocio en el nucleo de la aplicación |
 | D-003  | Patrón complementario - Microservicios                 | Se toma como patrón complementario microservicios, por que nos permite distribuir la funcionalidad en componentes independientes                                                                          |
-| D-003  | Patrón complementario - Capas                          | Se toma como patrón complementario capas, con enfoque de arquitectura hexagonal para alinear la distribución de microservicios a dominios y encapsular la lógica de negocio en el nucleo de la aplicación |
 | D-004  | Patrón complementario - Database per Service           | Para la capa de datos se propone una base de datos por microservicio, para componentes transaccionales se usara postgres y mongodb para información solo de registro                                      |
-| D-005  | Patrón complementario - CQRS                           | Para un buen rendimiento en las consultas se propone CQRS, para que cada microservicio, sea responsable de mantener la información que necesita para realizar sus operaciones en vistas materializadas    |
+| D-005  | Patrón complementario - CQRS                           | Para un buen rendimiento en las consultas se propone CQRS, para que cada microservicio, sea responsable de mantener la información que necesita para realizar sus operaciones                             |
 | D-006  | Patrón complementario - Saga                           | Para la sincronización de las bases de datos de cada servicio, cada servicio actualiza la base de datos y publicará un evento mediante el broker de mensajeria kafka                                      |
 | D-007  | Patrón complementario - Service instance per container | Para facilitar el proceso de escalamiento horizontal de los servicios con mayor carga se propone desplegar un servicio por contenedor                                                                     |
 | D-008  | Uso de Api para cotizaciones                           | Se propone utilizar un servicio externo como https://currencylayer.com/ para obtener los tipos de cambio                                                                                                  |
@@ -104,7 +104,7 @@ A = Alto, M = Medio, B = Bajo
 | Eficiencia de desempeño | Comportamiento temporal - Tiempos de ejecución de transacciones                 | Se debe garantizar la consistencia y la integridad de las transacciones en tiempo real                                                                                                                             | M    | A    |
 | Fiabilidad              | Disponibilidad - Accesibilidad a los servicios                                  | Los servicios deben estar disponibles en todo momento                                                                                                                                                              | A    | A    |
 | Fiabilidad              | Tolerancia a Fallos - Recuperación ante fallos de hardware y software           | En caso de presentarse alguna falla en el funcionamiento de debe contar con mecanismos de redundancia que permitan continuar con los servicios                                                                     | M    | B    |
-| Seguridad               | Integridad                                                                      | Se debe garantizar la integridad de las transacciones realizadas asegurando que no se realicen accesos y modificaciones no autorizadas implementando las operaciones de consultas solo a Vistas Materializadas     | A    | A    |
+| Seguridad               | Integridad                                                                      | Se debe garantizar la integridad de las transacciones realizadas asegurando que no se realicen accesos y modificaciones no autorizadas implementando las operaciones                                               | A    | A    |
 | Seguridad               | No Repudio                                                                      | Se debe implementar un mecanismo de logging que permita demostrar las acciones o eventos que han tenido lugar, incluyendo en las peticiones las direcciones, dispositivos desde donde se realizaron las peticiones | M    | A    |
 | Seguridad               | Autenticidad                                                                    | Todas las peticiones deben ser mediante protocolo HTTPS y contener un header de autentificación                                                                                                                    | A    | A    |
 | Mantenibilidad          | Modularidad                                                                     | Se debe implementar de manera que un cambio en un componente tenga un impacto mínimo en los demás componentes                                                                                                      | B    | B    |
@@ -130,14 +130,14 @@ A = Alto, M = Medio, B = Bajo
 | Decisiones de Arquitectura | Utilizar un patrón tipo API Gateway de cara al exterior blinda en gran medida los accesos no autorizados a la arquitectura.                                                                                                                                                                                         |
 | Medición                   | Cantidad de ataques detectados. Desempeño del sitio durante un ataque.                                                                                                                                                                                                                                              |                                                                                                                                                                                            |
 
-| Escenario                  | Sincronización de Información                                                                                                                                                                                                                                                            |
-|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Justificación              | Al estar definido bajo un patron de base de datos por servicio es necesario considerar la sincronización de la información entre las diferentes bases de datos                                                                                                                           |
-| Atributos de Calidad       | Corrección funcional, Comportamiento temporal, Disponibilidad                                                                                                                                                                                                                            |
-| Estímulos                  | Necesidad de sincronización de información                                                                                                                                                                                                                                               |
-| Respuesta                  | Información sincronizada entre las diferentes bases de datos                                                                                                                                                                                                                             |
-| Decisiones de Arquitectura | Utilizar un patrón tipo CQRS para mantener vistas materializadas en los diferentes microservicios que mantengan su información actualizada a la subscripción de mensajes eventos de actualización mediante el broker de mensajeria kafka, permitirá mantener la información sincronizada |
-| Medición                   | Cantidad de inconsistencias detectadas en procesos de conciliación                                                                                                                                                                                                                       |                                                                                                                                                                                            |
+| Escenario                  | Sincronización de Información                                                                                                                                                                                                                                                                        |
+|----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Justificación              | Al estar definido bajo un patron de base de datos por servicio es necesario considerar la sincronización de la información entre las diferentes bases de datos                                                                                                                                       |
+| Atributos de Calidad       | Corrección funcional, Comportamiento temporal, Disponibilidad                                                                                                                                                                                                                                        |
+| Estímulos                  | Necesidad de sincronización de información                                                                                                                                                                                                                                                           |
+| Respuesta                  | Información sincronizada entre las diferentes bases de datos                                                                                                                                                                                                                                         |
+| Decisiones de Arquitectura | Utilizar un patrón tipo saga para mantener tablas tipo vistas materializadas en los diferentes microservicios que mantengan su información actualizada a la subscripción de mensajes eventos de actualización mediante el broker de mensajeria kafka, permitirá mantener la información sincronizada |
+| Medición                   | Cantidad de inconsistencias detectadas en procesos de conciliación                                                                                                                                                                                                                                   |                                                                                                                                                                                            |
 
 | Escenario                  | Verificación de Transacciones                                                                                                                                                                                         |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -161,20 +161,20 @@ A = Alto, M = Medio, B = Bajo
 
 ### Vista casos de uso <a name="casoUso"></a>
 
-#### Gestión de Cuentas 
+#### Gestión de Cuentas
 
-![alt text](../docs/casos/gestionCuentas.png)
-_[Fuente PlantUML](../cuentas/src/main/resources/docs/plantUML/casos.puml)_
+![alt text](../docs/casos/gestionCuentas.png)\
+_[Fuente Diagrama PlantUML](../cuentas/src/main/resources/docs/plantUML/casos.puml)_
 
 #### Gestión de Transacciones
 
-![alt text](../docs/casos/gestionTransacciones.png)
-_[Fuente PlantUML](../transacciones/src/main/resources/docs/plantUML/caso.puml)_
+![alt text](../docs/casos/gestionTransacciones.png)\
+_[Fuente Diagrama PlantUML](../transacciones/src/main/resources/docs/plantUML/caso.puml)_
 
 #### Gestión de Tasas de Cambio
 
-![alt text](../docs/casos/gestionTasas.png)
-_[Fuente PlantUML](../tasas/src/main/resources/docs/plantUML/caso.puml)_
+![alt text](../docs/casos/gestionTasas.png)\
+_[Fuente Diagrama PlantUML](../tasas/src/main/resources/docs/plantUML/caso.puml)_
 
 ### Vista Lógica <a name="logica"></a>
 
@@ -198,15 +198,30 @@ _[Fuente PlantUML](../tasas/src/main/resources/docs/plantUML/caso.puml)_
 
 #### Cuentas
 
-![alt text](../docs/componentes/cuentas.png)
-_[Fuente PlantUML](../cuentas/src/main/resources/docs/plantUML/componentes.puml)_
+![alt text](../docs/componentes/cuentas.png)\
+_[Fuente Diagrama PlantUML](../cuentas/src/main/resources/docs/plantUML/componentes.puml)_
 
 ### Vista de Proceso <a name="proceso"></a>
 
-#### Transaccion - Caso Ideal
+#### Transacción - Caso Ideal
 
-![alt text](../docs/secuencias/transaccion.png)
-_[Fuente PlantUML](../transacciones/src/main/resources/docs/plantUML/secuenciaTransferenciaExitosa.puml)_
+![alt text](../docs/secuencias/transaccion.png)\
+_[Fuente Diagrama PlantUML](../transacciones/src/main/resources/docs/plantUML/secuenciaTransferenciaExitosa.puml)_
+
+#### Clientes
+
+![alt text](../docs/secuencias/cliente.png)\
+_[Fuente Diagrama PlantUML](../clientes/src/main/resources/docs/plantUML/secuencia.puml)_
+
+#### Cuentas
+
+![alt text](../docs/secuencias/cuentas.png)\
+_[Fuente Diagrama PlantUML](../cuentas/src/main/resources/docs/plantUML/secuencia.puml)_
+
+#### Tasas
+
+![alt text](../docs/secuencias/tasas.png)\
+_[Fuente Diagrama PlantUML](../tasas/src/main/resources/docs/plantUML/secuencia.puml)_
 
 ### Vista Física <a name="fisica"></a>
 

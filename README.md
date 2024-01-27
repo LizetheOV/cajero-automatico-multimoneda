@@ -1,4 +1,4 @@
-# Cajero Automatico Multimoneda
+# Cajero Automático Multi Moneda
 
 Este es un proyecto para un reto práctico de LMS que simula un cajero automatico multimoneda implementando con
 microservicios en java con docker
@@ -24,15 +24,19 @@ Para el proceso de implementación se considero los siguientes patrones de dise�
 ### Documentación
 
 #### Documentación de Apis
-Se implementó el proceso de documentación median openapi, cada microservicio tiene su documentación las siguientes rutas:
+
+Se implementó el proceso de documentación median openapi, cada microservicio tiene su documentación las siguientes
+rutas:
+
 1. [Api Tasas](./tasas/src/main/resources/docs/tasas.yaml)
 2. [Api Clientes](./clientes/src/main/resources/docs/clientes.yaml)
 3. [Api Cuentas](./cuentas/src/main/resources/docs/cuentas.yaml)
-4. [Api Transacciones](./transacciones/src/main/resources/docs/transacciones.yaml) 
+4. [Api Transacciones](./transacciones/src/main/resources/docs/transacciones.yaml)
 
 #### Documentación Técnica
 
 La documentación de la propuesta técnica de arquitectura se encuentra en [Propuesta Técnica](./docs/Propuesta_Tecnica.md)
+_**Nota**: Considerar que la implementación al ser un primer MPV no contempla la funcionalidad de toda la arquitectura descrita_ 
 
 La implementación de este proyecto contempla la siguiente estructura de despliegue:
 
@@ -47,40 +51,47 @@ comando:
 docker-compose up -d
 ```
 
-Si es la primera ves que intenta levantar el proyecto, es probable que demore un par de minutos, por que necesitara
-descargar la imágenes de los contenedores
+La primera vez, es probable que demore un par de minutos, porque necesitará descargar las imágenes de los contenedores
 
---
 Para comprobar que los contenedores se levantaron correctamente con el comando
+
 ```bash
 docker ps -a
 ```
+
 Se debe verificar que tengan el siguiente listado de contenedores en estado running:
 
-   1. clientes-database
-   2. zookeeper
-   3. kafka
-   4. cuentas-database
-   5. transacciones-database
-   6. tasas-database
-   7. clientes-app
-   8. cuentas-app
-   9. transacciones-app
-   10. tasas-app
+1. clientes-database
+2. zookeeper
+3. kafka
+4. cuentas-database
+5. transacciones-database
+6. tasas-database
+7. clientes-app
+8. cuentas-app
+9. transacciones-app
+10. tasas-app
 
 ```bash
 docker ps -a
 ```
 
 ### Probar los servicios
+
+Se creó una colección de postman que le permite probar los servicios de manera integral, el archivo se encuentra el
+archivo se encuentra en [Test de Integración](docs/test/Cajero%20Multimoneda.postman_collection.json)
+
+También prueba probar los servicios de manera individual siguiendo las siguientes instrucciones:
+
 #### Crear cliente
+
 El microservicio de clientes se estara ejecutando en la siguiente ruta: http://localhost:8000
 La documentación de las apis se puede consultar mediante http://localhost:8000/swagger-ui/index.html
-**Nota**: para la creación no es necesario ingresar campo id, pero sera requerido para crear la cuenta
 
 ````http request
 POST http://localhost:8001/clientes/crear
 ````
+
 ````json
 {
   "ci": "6517731",
@@ -92,13 +103,14 @@ POST http://localhost:8001/clientes/crear
 ````
 
 #### Crear cuenta
+
 El microservicio de cuentas se estara ejecutando en la siguiente ruta: http://localhost:8001
 La documentación de las apis se puede consultar mediante http://localhost:8001/swagger-ui/index.html
-**Nota**: para la creación no es necesario ingresar campo id, pero debera ser usado id para ejecutar transacciones
 
 ````http request
 POST http://localhost:8001/cuentas/crear
 ````
+
 ````json
 {
   "clienteID": "065a6905-1412-4c7a-bc45-d22e00a59300",
@@ -106,23 +118,25 @@ POST http://localhost:8001/cuentas/crear
   "saldo": 0
 }
 ````
+
 #### Consultar saldo
+
 El microservicio de cuentas se estara ejecutando en la siguiente ruta: http://localhost:8001
 La documentación de las apis se puede consultar mediante http://localhost:8001/swagger-ui/index.html
-**Nota**: para consultar el saldo necesitara el ID de la cuenta que fue retornado al crear la cuenta
 
 ````http request
 GET http://localhost:8001/cuentas/065a6905-1412-4c7a-bc45-d22e00a59300
 ````
 
 #### Realizar Retiro
+
 El microservicio de transacciones se estara ejecutando en la siguiente ruta: http://localhost:8002
 La documentación de las apis se puede consultar mediante http://localhost:8002/swagger-ui/index.html
-**Nota**: para la creación no es necesario ingresar campo id
 
 ````http request
 POST http://localhost:8002/transacciones/retiro
 ````
+
 ````json
 {
   "cuentaID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -131,14 +145,15 @@ POST http://localhost:8002/transacciones/retiro
 }
 ````
 
-#### Realizar Deposito
-El microservicio de transacciones se estara ejecutando en la siguiente ruta: http://localhost:8002
+#### Realizar Depósito
+
+El microservicio de transacciones se estará ejecutando en la siguiente ruta: http://localhost:8002
 La documentación de las apis se puede consultar mediante http://localhost:8002/swagger-ui/index.html
-**Nota**: para la creación no es necesario ingresar campo id
 
 ````http request
 POST http://localhost:8002/transacciones/deposito
 ````
+
 ````json
 {
   "cuentaID": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -146,6 +161,12 @@ POST http://localhost:8002/transacciones/deposito
   "moneda": "BOB"
 }
 ````
-### Para levantar en local
-Establecer el profile activo a local y levantar los proyecto con el ide de su preferencia
-**Nota**: Considerar que para levantar el proyecto, previamente debe haberse generado las clases de las apis
+
+### Para levantar de manera local
+
+Siga las instrucciones de los archivos README.md de cada uno de los proyectos en el siguiente orden:
+
+1. [tasas](tasas/README.md)
+2. [clientes](clientes/README.md)
+3. [cuentas](cuentas/README.md)
+4. [transacciones](transacciones/README.md)
