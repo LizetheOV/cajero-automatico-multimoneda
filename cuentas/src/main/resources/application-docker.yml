@@ -11,4 +11,4 @@ spring:
     consumer:
       group-id: cliente-group
 connections:
-  gateway: http://tasas-app:8003
+  gateway: http://tasas-app:8080

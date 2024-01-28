@@ -48,7 +48,7 @@ Este proyecto tiene conexión con la base de datos mongodb, por lo que debe leva
     ````shell
     docker-compose up tasas-database
     ````
-  **Nota**: Este comando debe ser ejecutado en el directorio padre
+  **Nota**: Este comando debe ser ejecutado en el directorio servicios
 
 * Levantar el proyecto con maven
 
