@@ -30,7 +30,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"ci\": \"6517735\",\r\n  \"email\": \"lovandov@gmail.com\",\r\n  \"nombre\": \"Lizeth\",\r\n  \"apellido\": \"Ovando Velasques\",\r\n  \"telefono\": 79995746\r\n}",
+					"raw": "{\r\n  \"ci\": \"1517730\",\r\n  \"email\": \"lovandov@gmail.com\",\r\n  \"nombre\": \"Lizeth\",\r\n  \"apellido\": \"Ovando Velasques\",\r\n  \"telefono\": 79995746\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -42,7 +42,7 @@
 			"response": []
 		},
 		{
-			"name": "Crear Cuenta",
+			"name": "Crear Cuenta BOB",
 			"event": [
 				{
 					"listen": "test",
@@ -75,7 +75,7 @@
 			"response": []
 		},
 		{
-			"name": "Depositar Fondos",
+			"name": "Depositar Fondos BOB",
 			"event": [
 				{
 					"listen": "test",
@@ -108,7 +108,7 @@
 			"response": []
 		},
 		{
-			"name": "Retirar Fondos",
+			"name": "Retirar Fondos BOB",
 			"event": [
 				{
 					"listen": "test",
@@ -141,16 +141,13 @@
 			"response": []
 		},
 		{
-			"name": "Consultar Saldo",
+			"name": "Consultar Saldo BOB",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Status code is 200\", function () {\r",
-							"    pm.response.to.have.status(200);\r",
-							"});\r",
-							"pm.test(\"Realizar Retiro\", function () {\r",
+							"pm.test(\"consultar Saldo\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
 							"    var jsonData = pm.response.json();\r",
 							"    jsonData.monto == pm.environment.get(\"saldo\");\r",
@@ -164,6 +161,94 @@
 				"method": "GET",
 				"header": [],
 				"url": "http://localhost:8001/cuentas/saldo/{{cuentaID}}/BOB"
+			},
+			"response": []
+		},
+		{
+			"name": "Depositar Fondos USD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Realizar Deposito\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"saldo\", jsonData.saldo);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cuentaID\": \"{{cuentaID}}\",\r\n  \"monto\": 700,\r\n  \"moneda\": \"USD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8002/transacciones/deposito"
+			},
+			"response": []
+		},
+		{
+			"name": "Retirar Fondos USD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Realizar Retiro\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"saldo\", jsonData.saldo);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"cuentaID\": \"{{cuentaID}}\",\r\n  \"monto\": 10,\r\n  \"moneda\": \"USD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8002/transacciones/retiro"
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar Saldo USD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8001/cuentas/saldo/{{cuentaID}}/USD"
 			},
 			"response": []
 		}

@@ -48,14 +48,14 @@ levantar los contendedores de mongo y kafka primero
     ````shell
     docker-compose up cuentas-database
     ````
-  **Nota**: Este comando debe ser ejecutado en el directorio padre
+  **Nota**: Este comando debe ser ejecutado en el directorio servicios
 
 * Ejecutar el siguiente comando para levantar kafka (Solo si aun no fue levantado):
 
     ````shell
     docker-compose up kafka
     ````
-  **Nota**: Este comando debe ser ejecutado en el directorio padre
+  **Nota**: Este comando debe ser ejecutado en el directorio servicios
 
 * Levantar el proyecto con maven
 

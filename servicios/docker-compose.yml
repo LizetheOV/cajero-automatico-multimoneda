@@ -20,7 +20,7 @@ services:
 
   ### zookeeper y kafka para notificar eventos de registro y actualización de clientes y cuentas
   zookeeper:
-    image: 'bitnami/zookeeper:latest'
+    image: 'bitnami/zookeeper:3.9.1'
     restart: unless-stopped
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
@@ -29,7 +29,7 @@ services:
     ports:
       - "2181:2181"
   kafka:
-    image: 'bitnami/kafka:latest'
+    image: 'bitnami/kafka:3.4.1'
     restart: unless-stopped
     user: root
     depends_on:

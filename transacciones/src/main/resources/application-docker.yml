@@ -11,5 +11,5 @@ spring:
     consumer:
       group-id: cuenta-group
 connections:
-  gateway: http://tasas-app:8003
+  gateway: http://tasas-app:8080
 
